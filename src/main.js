@@ -2,20 +2,25 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import {
+  Col,
   Row,
-  Button,
+  Menu,
+  Input,
   Loading,
   MessageBox,
   Notification,
   Message,
 } from 'element-ui';
+import store from './store';
 import App from './App';
 import router from './router';
 
 Vue.config.productionTip = false;
 
-Vue.use(Button);
+Vue.use(Col);
 Vue.use(Row);
+Vue.use(Menu);
+Vue.use(Input);
 Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;
@@ -29,6 +34,7 @@ Vue.prototype.$message = Message;
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>',
 });
