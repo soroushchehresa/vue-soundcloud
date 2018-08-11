@@ -1,7 +1,15 @@
 <template>
   <div id="app">
-    <Navbar />
-    <router-view />
+    <el-container direction="vertical">
+      <el-header>
+        <Navbar />
+      </el-header>
+      <el-main>
+        <router-view />
+      </el-main>
+      <el-footer>
+      </el-footer>
+    </el-container>
   </div>
 </template>
 
@@ -18,6 +26,11 @@ export default {
 <style>
   body {
     margin: 0;
+    background: #f1f1f1;
+  }
+  a {
+    text-decoration: none;
+    color: #000;
   }
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -26,6 +39,9 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin: 0;
+    padding: 0;
+  }
+  .el-header {
     padding: 0;
   }
 </style>

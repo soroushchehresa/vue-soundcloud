@@ -6,6 +6,10 @@ import {
   Row,
   Menu,
   Input,
+  Container,
+  Header,
+  Main,
+  Footer,
   Loading,
   MessageBox,
   Notification,
@@ -21,6 +25,10 @@ Vue.use(Col);
 Vue.use(Row);
 Vue.use(Menu);
 Vue.use(Input);
+Vue.use(Container);
+Vue.use(Header);
+Vue.use(Main);
+Vue.use(Footer);
 Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

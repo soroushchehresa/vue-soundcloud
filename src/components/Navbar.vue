@@ -1,14 +1,20 @@
 <template>
-  <el-row type="flex" class="navbarWrapper" justify="center">
-    <el-col :span="20">
+  <el-row>
+    <el-col
+      :xs="24"
+      :sm="22"
+      :md="20"
+      :lg="18"
+      :xl="16"
+      class="wrapper"
+    >
       <el-menu
         mode="horizontal"
         background-color="#3a3f41"
         text-color="#fff"
         active-text-color="#ffd04b"
-        class="navbar"
       >
-        <img src="../assets/logo.png" class="navbarLogo" />
+        <img src="../assets/logo.png" class="logo" />
         <el-input
           size="small"
           placeholder="search music..."
@@ -31,24 +37,29 @@ export default {
 };
 </script>
 
-<style>
-  .navbarWrapper {
-    background: #3a3f41;
+<style scoped>
+  .wrapper {
+    margin: 0 auto;
+    float: none;
   }
-  .navbarWrapper .navbar {
+  .el-row {
+    background: #3a3f41;
+    padding: 0 17px;
+  }
+  .el-menu {
     border: none;
   }
-  .navbarWrapper .navbarLogo {
+  .logo {
     width: 170px;
     float: left;
-    margin: 0 20px;
+    margin: 0 20px 0 0;
   }
-  .navbarWrapper .searchInput {
+  .searchInput {
     float: right;
     width: 280px;
     margin: 13px 0;
   }
-  .navbarWrapper .searchInput .el-input__inner {
+  .searchInput .el-input__inner {
     background: #2b2b2b;
     border: none;
     outline: none;

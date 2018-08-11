@@ -1,17 +1,38 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <button @click="getItems">GET</button>
-    <h1 v-if="getTracksFail" style="color: red;">get tracks failed</h1>
-    <h1 v-if="getTracksLoading">Loading...</h1>
-    <h1 v-for="(track, i) in tracks" :key="i">{{track.title}}</h1>
+    <el-row :gutter="50" v-if="getTracksLoading">
+      <el-col :span="24">
+        <h1>Loading...</h1>
+      </el-col>
+    </el-row>
+    <el-row>
+      <el-col
+        :xs="24"
+        :sm="22"
+        :md="20"
+        :lg="18"
+        :xl="16"
+        class="itemsWrapper"
+      >
+        <el-row :gutter="15">
+          <song-item v-for="(track, i) in tracks" :key="i" :trackData="track" />
+        </el-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import SongItem from '../components/SongItem';
 
 export default {
+  mounted() {
+    this.getItems();
+  },
+  components: {
+    SongItem,
+  },
   computed: {
     ...mapGetters({
       getTracksLoading: 'getTracksLoading',
@@ -26,6 +47,9 @@ export default {
   },
 };
 </script>
-<style>
-
+<style scoped>
+  .itemsWrapper {
+    margin: 0 auto;
+    float: none;
+  }
 </style>
