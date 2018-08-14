@@ -10,6 +10,8 @@ import {
   Header,
   Main,
   Footer,
+  ButtonGroup,
+  Button,
   Loading,
   MessageBox,
   Notification,
@@ -29,6 +31,8 @@ Vue.use(Container);
 Vue.use(Header);
 Vue.use(Main);
 Vue.use(Footer);
+Vue.use(ButtonGroup);
+Vue.use(Button);
 Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

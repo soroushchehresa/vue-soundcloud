@@ -28,7 +28,7 @@ import SongItem from '../components/SongItem';
 
 export default {
   mounted() {
-    this.getItems();
+    this.getItems('house');
   },
   components: {
     SongItem,
@@ -41,12 +41,13 @@ export default {
     }),
   },
   methods: {
-    getItems() {
-      this.$store.dispatch('getTracks');
+    getItems(genre) {
+      this.$store.dispatch('getTracks', genre);
     },
   },
 };
 </script>
+
 <style scoped>
   .itemsWrapper {
     margin: 0 auto;

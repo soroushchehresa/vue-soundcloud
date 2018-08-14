@@ -3,9 +3,10 @@ import actions from './actions';
 import mutations from './mutations';
 
 const defaultState = {
-  getTracksLoading: false,
+  getTracksLoading: null,
   tracks: null,
   getTracksFail: false,
+  activeGenre: null,
 };
 
 export default {

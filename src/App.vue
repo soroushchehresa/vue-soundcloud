@@ -43,5 +43,6 @@ export default {
   }
   .el-header {
     padding: 0;
+    height: auto !important;
   }
 </style>

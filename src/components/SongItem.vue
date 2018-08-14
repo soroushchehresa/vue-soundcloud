@@ -35,7 +35,7 @@ export default {
   .wrapper {
     background: #fff;
     overflow: hidden;
-    height: 155px;
+    height: 160px;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #e3e3e3;
@@ -46,20 +46,20 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
+    float: left;
   }
-  .avatarWrapper {
-    width: 25%;
+  .avatarWrapper {;
     float: left;
   }
   .avatarWrapper .avatar {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 20px;
     margin: 10px 10px 10px 0;
   }
   .titleWrappper {
     float: left;
-    width: 75%;
+    width: 80%;
   }
   .titleWrappper .title {
     text-overflow: ellipsis;
@@ -69,17 +69,17 @@ export default {
     display: block;
   }
   .titleWrappper .title.trackTitle {
-    margin: 10px 0 2px;
+    margin: 12px 0 2px;
     font-size: 13px;
   }
   .titleWrappper .title.trackTitle:hover {
-    color: #555;
+    color: #777;
   }
   .titleWrappper .title.username {
-    color: #3381b7;
+    color: #378dc7;
     font-size: 12px;
   }
   .titleWrappper .title.username:hover {
-    color: #27517a;
+    color: #204365;
   }
 </style>
