@@ -4,9 +4,10 @@ import mutations from './mutations';
 
 const defaultState = {
   getTracksLoading: null,
-  tracks: null,
+  tracks: [],
   getTracksFail: false,
   activeGenre: null,
+  lastPage: null,
 };
 
 export default {

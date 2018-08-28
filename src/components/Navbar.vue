@@ -1,13 +1,6 @@
 <template>
   <el-row>
-    <el-col
-      :xs="24"
-      :sm="22"
-      :md="20"
-      :lg="18"
-      :xl="16"
-      class="wrapper"
-    >
+    <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="wrapper">
       <el-menu
         mode="horizontal"
         background-color="#3a3f41"
@@ -20,19 +13,11 @@
           placeholder="search music..."
           prefix-icon="el-icon-search"
           class="searchInput"
-        >
-        </el-input>
+        />
       </el-menu>
     </el-col>
     <div class="genresMenu">
-      <el-col
-        :xs="24"
-        :sm="22"
-        :md="20"
-        :lg="18"
-        :xl="16"
-        class="genresWrapper"
-      >
+      <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="genresWrapper">
         <el-button-group size="small">
           <el-button
             v-for="(genre, i) in genres"
@@ -75,7 +60,11 @@ export default {
   },
   methods: {
     getItems(genre) {
-      this.$store.dispatch('getTracks', genre);
+      this.$store.dispatch('clearTracks');
+      this.$store.dispatch('getTracks', {
+        genre,
+        page: 1,
+      });
     },
   },
 };
