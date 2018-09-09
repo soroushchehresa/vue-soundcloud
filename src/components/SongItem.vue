@@ -1,16 +1,15 @@
 <template>
-  <el-col
-    :xs="24"
-    :sm="12"
-    :md="8"
-    :lg="6"
-    :xl="4"
-  >
+  <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="4">
     <div class="wrapper">
       <div
-        :style="{backgroundImage: `url(${trackData.artwork_url})` }"
-        class="artwork"
-      />
+        :style="`backgroundImage: url(${trackData.artwork_url})`"
+        :class="`artwork${(activeTrack && (activeTrack.id === trackData.id)) ? ' active' : ''}`"
+        @click="onClickTrack(trackData)"
+      >
+        <div class="playOverlay">
+          <img src="../assets/icons/play.svg" />
+        </div>
+      </div>
       <div class="avatarWrapper">
         <img class="avatar" :src="trackData.user.avatar_url" :alt="trackData.user.username" />
       </div>
@@ -23,8 +22,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  props: ['trackData'],
+  computed: {
+    ...mapGetters({
+      activeTrack: 'activeTrack',
+    }),
+  },
+  props: ['trackData', 'onClickTrack'],
 };
 </script>
 
@@ -47,6 +53,37 @@ export default {
     background-size: cover;
     background-position: center center;
     float: left;
+    cursor: pointer;
+    position: relative;
+    background-color: #e1e1e1;
+  }
+  .artwork .playOverlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, .8);
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all linear .2s;
+  }
+  .artwork .playOverlay > img {
+    width: 40px;
+    margin-top: -30px;
+    opacity: 0;
+    transition: all linear .2s;
+  }
+  .artwork:hover .playOverlay, .artwork.active .playOverlay {
+    opacity: 1;
+    visibility: visible;
+  }
+  .artwork:hover .playOverlay > img, .artwork.active .playOverlay > img {
+    margin-top: 0;
+    opacity: 1;
   }
   .avatarWrapper {;
     float: left;

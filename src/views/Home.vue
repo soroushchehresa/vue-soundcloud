@@ -3,7 +3,12 @@
     <el-row>
       <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="itemsWrapper">
         <el-row :gutter="15">
-          <song-item v-for="(track, i) in tracks" :key="i" :trackData="track" />
+          <song-item
+            v-for="(track, i) in tracks"
+            :key="i"
+            :trackData="track"
+            :onClickTrack="handleClickTrack"
+          />
         </el-row>
       </el-col>
       <el-col :xl="24">
@@ -36,24 +41,31 @@ export default {
       tracks: 'tracks',
       activeGenre: 'activeGenre',
       lastPage: 'lastPage',
+      activeTrack: 'activeTrack',
     }),
   },
   methods: {
     scroll() {
-      const self = this;
-      const nextPage = this.lastPage ? this.lastPage += 1 : this.page += 1;
       window.addEventListener('scroll', () => {
+        const page = this.lastPage ? this.lastPage + 1 : this.page += 1;
         const bottomOfWindow =
           document.documentElement.scrollTop +
           window.innerHeight ===
           document.documentElement.offsetHeight;
-        if (bottomOfWindow && !self.getTracksLoading) {
+        if (bottomOfWindow && !this.getTracksLoading) {
           this.$store.dispatch('getTracks', {
-            genre: self.activeGenre ? self.activeGenre : 'house',
-            page: nextPage,
+            genre: this.activeGenre ? this.activeGenre : 'house',
+            page,
           });
         }
       });
+    },
+    handleClickTrack(trackData) {
+      if (this.activeTrack && trackData.id === this.activeTrack.id) {
+        this.$store.dispatch('setActiveTeack', null);
+      } else {
+        this.$store.dispatch('setActiveTeack', trackData);
+      }
     },
   },
 };

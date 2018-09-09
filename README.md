@@ -1,4 +1,4 @@
-<img title="redux-observable" src="bg.png" width="100%">
+<img title="vue-soundcloud" src="bg.jpg" width="100%">
 
 ## COMING SOON...
 This project is in development!

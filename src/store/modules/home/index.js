@@ -8,6 +8,7 @@ const defaultState = {
   getTracksFail: false,
   activeGenre: null,
   lastPage: null,
+  activeTrack: null,
 };
 
 export default {

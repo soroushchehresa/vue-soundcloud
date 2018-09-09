@@ -16,6 +16,7 @@ import {
   MessageBox,
   Notification,
   Message,
+  Slider,
 } from 'element-ui';
 import store from './store';
 import App from './App';
@@ -33,6 +34,7 @@ Vue.use(Main);
 Vue.use(Footer);
 Vue.use(ButtonGroup);
 Vue.use(Button);
+Vue.use(Slider);
 Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

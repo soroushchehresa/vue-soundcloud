@@ -60,6 +60,7 @@ export default {
   },
   methods: {
     getItems(genre) {
+      this.$store.dispatch('setActiveTeack', null);
       this.$store.dispatch('clearTracks');
       this.$store.dispatch('getTracks', {
         genre,

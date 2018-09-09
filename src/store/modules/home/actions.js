@@ -7,8 +7,8 @@ export default {
       url: 'tracks',
       query: {
         linked_partitioning: page,
-        limit: 30,
-        offset: 30 * page,
+        limit: 40,
+        offset: 40 * page,
         tags: genre,
       },
     })
@@ -21,5 +21,8 @@ export default {
   },
   clearTracks: (context) => {
     context.commit('CLEAR_TRACKS');
+  },
+  setActiveTeack: (context, data) => {
+    context.commit('SET_ACTIVE_TRACK', data);
   },
 };
