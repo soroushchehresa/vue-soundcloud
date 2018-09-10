@@ -4,8 +4,7 @@
 https://vue-soundcloud.herokuapp.com
 
 ## About
-This is a Soundcloud client I've put together using the following technologies:
-
+This is a simple Soundcloud client built with `Vue.js 2`, I've implemented this using the following technologies:
 * [vue](https://github.com/vuejs/vue)
 * [vue-router](https://github.com/vuejs/vue-router)
 * [vuex](https://github.com/vuejs/vuex)
@@ -25,14 +24,14 @@ Implement essential functionalities.
 #### Stage 2 [IN PROGRESS]
 Add new features and improve essential functionalities.
 
-- [] Implement user page
-- [] Implement song page
-- [] Improve and complete music player
-- [] Fix resposive issues
+- [ ] Implement user page
+- [ ] Implement song page
+- [ ] Improve and complete music player
+- [ ] Fix resposive issues
 
 #### Stage 3
 Add additional features.
 
-- [] Implement SSR
-- [] Implement PWA
-- [] Add some pages
+- [ ] Implement SSR
+- [ ] Implement PWA
+- [ ] Add some pages
