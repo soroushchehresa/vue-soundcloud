@@ -13,15 +13,16 @@ This is a simple Soundcloud client built with `Vue.js 2`, I've implemented this 
 * [howler.js](https://github.com/goldfire/howler.js)
 
 ## Roadmap
-#### Stage 1
+#### Stage 1 [IN PROGRESS]
 Implement essential functionalities.
 
 - [x] Load home page items
 - [x] Add and handle genres
 - [x] Implement Infinite Scroll
 - [x] Implement simple music player
+- [ ] Handle search
 
-#### Stage 2 [IN PROGRESS]
+#### Stage 2
 Add new features and improve essential functionalities.
 
 - [ ] Implement user page
