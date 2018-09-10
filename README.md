@@ -27,7 +27,7 @@ Add new features and improve essential functionalities.
 - [ ] Implement user page
 - [ ] Implement song page
 - [ ] Improve and complete music player
-- [ ] Fix resposive issues
+- [ ] Fix responsive issues
 
 #### Stage 3
 Add additional features.
