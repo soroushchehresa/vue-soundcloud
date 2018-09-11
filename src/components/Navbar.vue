@@ -8,26 +8,58 @@
         active-text-color="#ffd04b"
       >
         <img src="../assets/logo.png" class="logo" />
-        <el-input
-          size="small"
-          placeholder="search music..."
-          prefix-icon="el-icon-search"
-          class="searchInput"
-        />
+        <form @submit="handleSearch">
+          <el-input
+            size="small"
+            placeholder="search music..."
+            :prefix-icon="
+            !this.searchQuery && this.searchTracksLoading ? 'el-icon-loading' : 'el-icon-search'
+            "
+            class="searchInput"
+            tabindex="-1"
+            v-model="query"
+          />
+        </form>
       </el-menu>
     </el-col>
     <div class="genresMenu">
-      <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="genresWrapper">
+      <el-col
+        :xs="24"
+        :sm="22"
+        :md="20"
+        :lg="18"
+        :xl="16"
+        class="genresWrapper"
+        v-if="!searchQuery"
+      >
         <el-button-group size="small">
           <el-button
             v-for="(genre, i) in genres"
             :key="i"
-            @click="getItems(genre)"
+            @click="getGenreItems(genre)"
             v-bind:class="{active: activeGenre === genre, preActive: getTracksLoading === genre}"
           >
             {{genre}}
           </el-button>
         </el-button-group>
+      </el-col>
+      <el-col
+        :xs="24"
+        :sm="22"
+        :md="20"
+        :lg="18"
+        :xl="16"
+        class="searchQueryWrapper"
+        v-if="searchQuery"
+      >
+        <h3>{{ searchTracksLoading ? 'Loading...' : `Results of searched '${searchQuery}'`}}</h3>
+         <el-button
+           @click="handleClearSearch"
+           class="clearSearchButton"
+           icon="el-icon-close"
+           v-if="!searchTracksLoading"
+           circle
+         />
       </el-col>
     </div>
   </el-row>
@@ -50,22 +82,49 @@ export default {
         'pop',
         'rock',
       ],
+      query: '',
     };
+  },
+  mounted() {
+    document.querySelector('.searchInput input').addEventListener('keyup', (event) => {
+      event.preventDefault();
+      if (event.keyCode === 13) {
+        this.handleSearch();
+      }
+    });
+  },
+  updated() {
+    if (!this.query) {
+      this.handleClearSearch();
+    }
   },
   computed: {
     ...mapGetters({
       activeGenre: 'activeGenre',
       getTracksLoading: 'getTracksLoading',
+      searchQuery: 'searchQuery',
+      searchTracksLoading: 'searchTracksLoading',
     }),
   },
   methods: {
-    getItems(genre) {
+    getGenreItems(genre) {
       this.$store.dispatch('setActiveTeack', null);
       this.$store.dispatch('clearTracks');
       this.$store.dispatch('getTracks', {
         genre,
         page: 1,
       });
+    },
+    handleSearch() {
+      if (!this.searchQuery || this.searchQuery !== this.query) {
+        this.$store.dispatch('search', {
+          query: this.query,
+          page: 1,
+        });
+      }
+    },
+    handleClearSearch() {
+      this.$store.dispatch('clearSearch');
     },
   },
 };
@@ -102,6 +161,26 @@ export default {
   .genresMenu {
     width: 100%;
     background: #fff;
+  }
+  .searchQueryWrapper {
+    margin: 0 auto;
+    float: none;
+    background: #fff;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .searchQueryWrapper h3 {
+    margin: 0;
+  }
+  .searchQueryWrapper .clearSearchButton {
+    margin-left: 20px;
+  }
+  .searchQueryWrapper .clearSearchButton:hover {
+    border-color: #43b883;
+    color: #fff;
+    background: #43b883;
   }
   .genresWrapper {
     margin: 0 auto;

@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="itemsWrapper">
-        <el-row :gutter="15">
+        <el-row :gutter="15" v-if="(searchResults.length < 1)">
           <song-item
             v-for="(track, i) in tracks"
             :key="i"
@@ -10,9 +10,17 @@
             :onClickTrack="handleClickTrack"
           />
         </el-row>
+        <el-row :gutter="15" v-if="searchResults.length > 0">
+          <song-item
+            v-for="(track, i) in searchResults"
+            :key="i"
+            :trackData="track"
+            :onClickTrack="handleClickTrack"
+          />
+        </el-row>
       </el-col>
       <el-col :xl="24">
-        <h1 v-if="getTracksLoading">Loading...</h1>
+        <h1 v-if="getTracksLoading || searchTracksLoading">Loading...</h1>
       </el-col>
     </el-row>
   </div>
@@ -42,6 +50,10 @@ export default {
       activeGenre: 'activeGenre',
       lastPage: 'lastPage',
       activeTrack: 'activeTrack',
+      searchTracksLoading: 'searchTracksLoading',
+      searchResults: 'searchResults',
+      searchQuery: 'searchQuery',
+      lastSearchPage: 'lastSearchPage',
     }),
   },
   methods: {
@@ -53,10 +65,17 @@ export default {
           window.innerHeight ===
           document.documentElement.offsetHeight;
         if (bottomOfWindow && !this.getTracksLoading) {
-          this.$store.dispatch('getTracks', {
-            genre: this.activeGenre ? this.activeGenre : 'house',
-            page,
-          });
+          if (this.searchQuery) {
+            this.$store.dispatch('search', {
+              query: this.searchQuery,
+              page: this.lastSearchPage + 1,
+            });
+          } else {
+            this.$store.dispatch('getTracks', {
+              genre: this.activeGenre ? this.activeGenre : 'house',
+              page,
+            });
+          }
         }
       });
     },

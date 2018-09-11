@@ -1,7 +1,7 @@
 {
   "name": "vue-soundcloud",
-  "version": "1.0.0",
-  "description": "A Soundcloud client built with Vue.js",
+  "version": "0.0.0",
+  "description": "A Soundcloud client built with Vue.js 2",
   "author": "Soroush Chehresa",
   "private": true,
   "scripts": {

@@ -8,7 +8,7 @@ export default {
       query: {
         linked_partitioning: page,
         limit: 40,
-        offset: 40 * page,
+        offset: 40 * (page - 1),
         tags: genre,
       },
     })

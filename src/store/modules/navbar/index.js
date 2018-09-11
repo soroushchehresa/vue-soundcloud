@@ -3,12 +3,11 @@ import actions from './actions';
 import mutations from './mutations';
 
 const defaultState = {
-  getTracksLoading: null,
-  tracks: [],
-  getTracksFail: null,
-  activeGenre: null,
-  lastPage: null,
-  activeTrack: null,
+  searchTracksLoading: false,
+  searchResults: [],
+  searchTracksFail: null,
+  lastSearchPage: null,
+  searchQuery: null,
 };
 
 export default {
