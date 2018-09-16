@@ -2,13 +2,12 @@
   <el-row>
     <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="wrapper">
       <el-menu
-        mode="horizontal"
         background-color="#3a3f41"
         text-color="#fff"
         active-text-color="#ffd04b"
       >
         <img src="../assets/logo.png" class="logo" />
-        <form @submit="handleSearch">
+        <form @submit.prevent="handleSearch">
           <el-input
             size="small"
             placeholder="search music..."
@@ -18,6 +17,7 @@
             class="searchInput"
             tabindex="-1"
             v-model="query"
+            clearable
           />
         </form>
       </el-menu>
@@ -85,16 +85,8 @@ export default {
       query: '',
     };
   },
-  mounted() {
-    document.querySelector('.searchInput input').addEventListener('keyup', (event) => {
-      event.preventDefault();
-      if (event.keyCode === 13) {
-        this.handleSearch();
-      }
-    });
-  },
   updated() {
-    if (!this.query) {
+    if (!this.query && this.searchQuery) {
       this.handleClearSearch();
     }
   },
@@ -116,7 +108,7 @@ export default {
       });
     },
     handleSearch() {
-      if (!this.searchQuery || this.searchQuery !== this.query) {
+      if (this.query && (!this.searchQuery || (this.searchQuery !== this.query))) {
         this.$store.dispatch('search', {
           query: this.query,
           page: 1,
@@ -176,6 +168,7 @@ export default {
   }
   .searchQueryWrapper .clearSearchButton {
     margin-left: 20px;
+    padding: 8px;
   }
   .searchQueryWrapper .clearSearchButton:hover {
     border-color: #43b883;
