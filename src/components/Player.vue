@@ -137,7 +137,7 @@ export default {
       this.isPlay = true;
       this.player.on('play', () => {
         setInterval(() => {
-          if (this.player.playing()) {
+          if (this.player && this.player.playing()) {
             this.duration = Math.round(this.player.duration() || 0);
             this.seek = Math.round(this.player.seek() || 0);
           }
