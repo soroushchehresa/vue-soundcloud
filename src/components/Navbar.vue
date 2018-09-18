@@ -207,4 +207,23 @@ export default {
   .el-button > span {
     font-size: 16px;
   }
+  @media (max-width: 768px) {
+    .el-button-group {
+      overflow-x: scroll;
+      overflow-y: hidden;
+      white-space: nowrap;
+      width: 100%;
+    }
+    .genresWrapper .el-button {
+      float: none;
+    }
+    .logo {
+      float: none;
+    }
+    .searchInput {
+      width: calc(100% - 20px);
+      margin: 0 10px 20px;
+      box-sizing: border-box;
+    }
+  }
 </style>
