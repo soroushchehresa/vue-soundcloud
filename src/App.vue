@@ -2,7 +2,7 @@
   <div id="app">
     <el-container direction="vertical">
       <el-header>
-        <navbar />
+        <navbar :showGenres="$route.path === '/'" />
       </el-header>
       <el-main>
         <router-view />

@@ -6,7 +6,9 @@
         text-color="#fff"
         active-text-color="#ffd04b"
       >
-        <img src="../assets/logo.png" class="logo" />
+        <router-link to="/">
+          <img src="../assets/logo.png" class="logo" />
+        </router-link>
         <form @submit.prevent="handleSearch">
           <el-input
             size="small"
@@ -22,7 +24,7 @@
         </form>
       </el-menu>
     </el-col>
-    <div class="genresMenu">
+    <div class="genresMenu" v-if="showGenres">
       <el-col
         :xs="24"
         :sm="22"
@@ -85,6 +87,7 @@ export default {
       query: '',
     };
   },
+  props: ['showGenres'],
   updated() {
     if (!this.query && this.searchQuery) {
       this.handleClearSearch();

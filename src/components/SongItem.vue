@@ -15,7 +15,9 @@
       </div>
       <div class="titleWrappper">
         <a class="title trackTitle" href="#">{{trackData.title}}</a>
-        <a class="title username" href="#">{{trackData.user.username}}</a>
+        <router-link class="title username" :to="`/users/${trackData.user.id}`">
+          {{trackData.user.username}}
+        </router-link>
       </div>
     </div>
   </el-col>
@@ -110,13 +112,13 @@ export default {
     font-size: 13px;
   }
   .titleWrappper .title.trackTitle:hover {
-    color: #777;
+    color: #505155;
   }
   .titleWrappper .title.username {
-    color: #378dc7;
+    color: #909297;
     font-size: 12px;
   }
   .titleWrappper .title.username:hover {
-    color: #204365;
+    color: #6c6d71;
   }
 </style>

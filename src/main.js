@@ -17,6 +17,8 @@ import {
   Notification,
   Message,
   Slider,
+  Card,
+  tooltip,
 } from 'element-ui';
 import store from './store';
 import App from './App';
@@ -35,6 +37,8 @@ Vue.use(Footer);
 Vue.use(ButtonGroup);
 Vue.use(Button);
 Vue.use(Slider);
+Vue.use(Card);
+Vue.use(tooltip);
 Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

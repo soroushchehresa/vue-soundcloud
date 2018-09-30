@@ -38,7 +38,10 @@ export default {
   },
   mounted() {
     this.$store.dispatch('getTracks', { genre: 'house', page: 1 });
-    this.scroll();
+    window.addEventListener('scroll', this.scroll);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.scroll);
   },
   components: {
     SongItem,
@@ -58,26 +61,24 @@ export default {
   },
   methods: {
     scroll() {
-      window.addEventListener('scroll', () => {
-        const page = this.lastPage ? this.lastPage + 1 : this.page += 1;
-        const bottomOfWindow =
-          document.documentElement.scrollTop +
-          window.innerHeight ===
-          document.documentElement.offsetHeight;
-        if (bottomOfWindow && !this.getTracksLoading) {
-          if (this.searchQuery) {
-            this.$store.dispatch('search', {
-              query: this.searchQuery,
-              page: this.lastSearchPage + 1,
-            });
-          } else {
-            this.$store.dispatch('getTracks', {
-              genre: this.activeGenre ? this.activeGenre : 'house',
-              page,
-            });
-          }
+      const page = this.lastPage ? this.lastPage + 1 : this.page += 1;
+      const bottomOfWindow =
+        document.documentElement.scrollTop +
+        window.innerHeight ===
+        document.documentElement.offsetHeight;
+      if (bottomOfWindow && !this.getTracksLoading) {
+        if (this.searchQuery) {
+          this.$store.dispatch('search', {
+            query: this.searchQuery,
+            page: this.lastSearchPage + 1,
+          });
+        } else {
+          this.$store.dispatch('getTracks', {
+            genre: this.activeGenre ? this.activeGenre : 'house',
+            page,
+          });
         }
-      });
+      }
     },
     handleClickTrack(trackData) {
       if (this.activeTrack && trackData.id === this.activeTrack.id) {

@@ -22,7 +22,7 @@ class Client {
           headers: { 'Content-Type': 'application/json; charset=UTF-8' },
           data: JSON.stringify(data),
         },
-        requestURL: `https://api.soundcloud.com/${url}/?${queryStrings}`,
+        requestURL: `https://api.soundcloud.com/${url}?${queryStrings}`,
       };
     }
 
