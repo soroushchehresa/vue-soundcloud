@@ -25,7 +25,7 @@ Implement essential functionalities.
 #### Stage 2 [IN PROGRESS]
 Add new features and improve essential functionalities.
 
-- [ ] Implement user page
+- [x] Implement user page
 - [ ] Implement song page
 - [ ] Improve and complete music player
 - [ ] Fix responsive issues
