@@ -50,6 +50,7 @@ export default {
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #e3e3e3;
+    height: 168px;
   }
   .artwork {
     width: 100%;
