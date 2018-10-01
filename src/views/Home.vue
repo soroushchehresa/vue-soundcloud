@@ -28,7 +28,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import SongItem from '../components/SongItem';
+import SongItem from '../components/SongGridItem';
 
 export default {
   data() {

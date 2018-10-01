@@ -7,17 +7,21 @@
         @click="onClickTrack(trackData)"
       >
         <div class="playOverlay">
-          <img src="../assets/icons/play.svg" />
+          <img class="playing" src="../assets/playing.gif" />
+          <img class="stop" src="../assets/icons/stop.svg" />
+          <img class="play" src="../assets/icons/play.svg" />
         </div>
       </div>
-      <div class="avatarWrapper">
-        <img class="avatar" :src="trackData.user.avatar_url" :alt="trackData.user.username" />
-      </div>
-      <div class="titleWrappper">
-        <a class="title trackTitle" href="#">{{trackData.title}}</a>
-        <router-link class="title username" :to="`/users/${trackData.user.id}`">
-          {{trackData.user.username}}
-        </router-link>
+      <div class="bottomWrapper">
+        <div class="avatarWrapper">
+          <img class="avatar" :src="trackData.user.avatar_url" :alt="trackData.user.username" />
+        </div>
+        <div class="titleWrappper">
+          <a class="title trackTitle" href="#">{{trackData.title}}</a>
+          <router-link class="title username" :to="`/users/${trackData.user.id}`">
+            {{trackData.user.username}}
+          </router-link>
+        </div>
       </div>
     </div>
   </el-col>
@@ -43,18 +47,16 @@ export default {
   .wrapper {
     background: #fff;
     overflow: hidden;
-    height: 160px;
     padding: 8px;
     box-sizing: border-box;
     border: 1px solid #e3e3e3;
   }
   .artwork {
     width: 100%;
-    height: 90px;
+    height: 100px;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    float: left;
     cursor: pointer;
     position: relative;
     background-color: #e1e1e1;
@@ -79,6 +81,9 @@ export default {
     opacity: 0;
     transition: all linear .2s;
   }
+  .artwork .playOverlay > img.stop {
+    width: 35px;
+  }
   .artwork:hover .playOverlay, .artwork.active .playOverlay {
     opacity: 1;
     visibility: visible;
@@ -87,18 +92,28 @@ export default {
     margin-top: 0;
     opacity: 1;
   }
-  .avatarWrapper {;
-    float: left;
+  .artwork .playOverlay .stop,
+  .artwork .playOverlay .play,
+  .artwork .playOverlay:hover .playing,
+  .artwork.active .playOverlay:hover .play {
+    display: none;
+  }
+  .artwork.active .playOverlay:hover .stop, .artwork .playOverlay:hover .play {
+    display: block;
+  }
+  .bottomWrapper {
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
   }
   .avatarWrapper .avatar {
     width: 40px;
     height: 40px;
     border-radius: 20px;
-    margin: 10px 10px 10px 0;
+    margin: 10px 10px -5px 0;
   }
   .titleWrappper {
-    float: left;
-    width: 80%;
+    overflow: hidden;
   }
   .titleWrappper .title {
     text-overflow: ellipsis;
