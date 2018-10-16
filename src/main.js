@@ -18,11 +18,38 @@ import {
   Message,
   Slider,
   Card,
-  tooltip,
 } from 'element-ui';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faHeart,
+  faPlay,
+  faComment,
+  faUsers,
+  faMapMarkerAlt,
+  faGlobe,
+  faPlayCircle,
+  faStopCircle,
+  faStop,
+  faPause,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import store from './store';
 import App from './App';
 import router from './router';
+
+library.add(
+  faHeart,
+  faPlay,
+  faComment,
+  faUsers,
+  faMapMarkerAlt,
+  faGlobe,
+  faPlayCircle,
+  faStopCircle,
+  faPause,
+  faStop,
+);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.config.productionTip = false;
 
@@ -38,7 +65,6 @@ Vue.use(ButtonGroup);
 Vue.use(Button);
 Vue.use(Slider);
 Vue.use(Card);
-Vue.use(tooltip);
 Vue.use(Loading.directive);
 Vue.prototype.$loading = Loading.service;
 Vue.prototype.$msgbox = MessageBox;

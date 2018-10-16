@@ -4,5 +4,4 @@ export default {
   getTracksFail: state => state.getTracksFail,
   activeGenre: state => state.activeGenre,
   lastPage: state => state.lastPage,
-  activeTrack: state => state.activeTrack,
 };

@@ -1,21 +1,23 @@
 <template>
   <div>
-    <el-row>
+    <el-row :style="`padding-bottom: ${currentTrack ? '70px' : '0'}`">
       <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="itemsWrapper">
         <el-row :gutter="15" v-if="(searchResults.length < 1)">
-          <song-item
+          <track-item-grid
             v-for="(track, i) in tracks"
             :key="i"
             :trackData="track"
             :onClickTrack="handleClickTrack"
+            :currentTrack="currentTrack"
           />
         </el-row>
         <el-row :gutter="15" v-if="searchResults.length > 0">
-          <song-item
+          <track-item-grid
             v-for="(track, i) in searchResults"
             :key="i"
             :trackData="track"
             :onClickTrack="handleClickTrack"
+            :currentTrack="currentTrack"
           />
         </el-row>
       </el-col>
@@ -23,17 +25,24 @@
         <h1 v-if="getTracksLoading || searchTracksLoading">Loading...</h1>
       </el-col>
     </el-row>
+    <Player
+      :tracks="(searchResults.length > 0) ? searchResults : tracks"
+      :currentTrack="currentTrack"
+      :setCurrentTrack="handleSetCurrentTrack"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import SongItem from '../components/SongGridItem';
+import TrackItemGrid from '@/components/TrackItemGrid';
+import Player from '@/components/Player';
 
 export default {
   data() {
     return {
       page: 1,
+      currentTrack: null,
     };
   },
   mounted() {
@@ -44,7 +53,8 @@ export default {
     window.removeEventListener('scroll', this.scroll);
   },
   components: {
-    SongItem,
+    TrackItemGrid,
+    Player,
   },
   computed: {
     ...mapGetters({
@@ -52,7 +62,6 @@ export default {
       tracks: 'tracks',
       activeGenre: 'activeGenre',
       lastPage: 'lastPage',
-      activeTrack: 'activeTrack',
       searchTracksLoading: 'searchTracksLoading',
       searchResults: 'searchResults',
       searchQuery: 'searchQuery',
@@ -81,11 +90,14 @@ export default {
       }
     },
     handleClickTrack(trackData) {
-      if (this.activeTrack && trackData.id === this.activeTrack.id) {
-        this.$store.dispatch('setActiveTeack', null);
+      if (this.currentTrack && trackData.id === this.currentTrack.id) {
+        this.currentTrack = null;
       } else {
-        this.$store.dispatch('setActiveTeack', trackData);
+        this.currentTrack = trackData;
       }
+    },
+    handleSetCurrentTrack(currentTrack) {
+      this.currentTrack = currentTrack;
     },
   },
 };

@@ -57,7 +57,7 @@
               <h4 v-if="!getUserFollowingsLoading">
                 Following {{userFollowingsData && userFollowingsData.length}} Users
               </h4>
-              <user-item
+              <follower-item
                 v-if="!getUserFollowingsLoading"
                 v-for="(user, i) in userFollowingsData"
                 :key="i"
@@ -84,7 +84,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Sticky from 'vue-sticky-directive';
-import UserItem from '@/components/UserItem';
+import FollowerItem from '@/components/FollowerItem';
 import TrackItemRow from '@/components/TrackItemRow';
 import Player from '@/components/Player';
 
@@ -107,7 +107,7 @@ export default {
     this.$store.dispatch('getUserTracks', id);
   },
   components: {
-    UserItem,
+    FollowerItem,
     TrackItemRow,
     Player,
   },

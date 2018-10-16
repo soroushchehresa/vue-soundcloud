@@ -16,7 +16,4 @@ export default {
     state.getTracksLoading = false;
     state.tracks = [];
   },
-  SET_ACTIVE_TRACK: (state, data) => {
-    state.activeTrack = data;
-  },
 };

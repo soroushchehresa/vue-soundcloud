@@ -24,7 +24,7 @@
         </form>
       </el-menu>
     </el-col>
-    <div class="genresMenu" v-if="showGenres">
+    <div class="genresMenu" v-if="$route.path === '/'">
       <el-col
         :xs="24"
         :sm="22"
@@ -87,7 +87,6 @@ export default {
       query: '',
     };
   },
-  props: ['showGenres'],
   updated() {
     if (!this.query && this.searchQuery) {
       this.handleClearSearch();

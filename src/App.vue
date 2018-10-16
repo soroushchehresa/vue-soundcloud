@@ -2,26 +2,21 @@
   <div id="app">
     <el-container direction="vertical">
       <el-header>
-        <navbar :showGenres="$route.path === '/'" />
+        <navbar />
       </el-header>
       <el-main>
         <router-view />
       </el-main>
-      <el-footer>
-        <player />
-      </el-footer>
     </el-container>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar';
-import Player from './components/Player';
 
 export default {
   components: {
     Navbar,
-    Player,
   },
 };
 </script>

@@ -22,7 +22,4 @@ export default {
   clearTracks: (context) => {
     context.commit('CLEAR_TRACKS');
   },
-  setActiveTeack: (context, data) => {
-    context.commit('SET_ACTIVE_TRACK', data);
-  },
 };
