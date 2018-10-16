@@ -14,6 +14,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.4",
+    "@fortawesome/free-solid-svg-icons": "^5.3.1",
+    "@fortawesome/vue-fontawesome": "^0.1.1",
     "axios": "^0.18.0",
     "element-ui": "^2.4.5",
     "howler": "^2.0.15",
@@ -21,6 +24,7 @@
     "qs": "^6.5.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
+    "vue-sticky-directive": "0.0.6",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
