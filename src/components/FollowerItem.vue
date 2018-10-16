@@ -7,7 +7,10 @@
           <router-link class="username" :to="`/users/${userData.id}`">
             {{userData.username}}
           </router-link>
-          <p class="location"><i class="el-icon-location"></i> {{userData.country || 'Earth'}}</p>
+          <p class="location">
+            <font-awesome-icon icon="map-marker-alt" />
+            {{userData.country || 'Earth'}}
+          </p>
         </div>
       </div>
       <div class="followers">
@@ -43,8 +46,8 @@ export default {
     justify-content: center;
   }
   .userDetails .avatar {
-    width: 50px;
-    border-radius: 30px;
+    width: 40px;
+    border-radius: 20px;
   }
   .userDetails .usernameWrapper {
     margin-left: 10px;
@@ -52,27 +55,26 @@ export default {
   }
   .userDetails .usernameWrapper .username {
     margin: 0;
-    font-size: 15px;
+    font-size: 13px;
   }
   .userDetails .usernameWrapper .location {
     margin: 0;
-    font-size: 13px;
-    margin-top: 7px;
+    font-size: 12px;
     color: #a1a1a1;
+  }
+  .userDetails .usernameWrapper .location > svg {
+    margin-right: 3px;
   }
   .followers {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-  }
-  .followers > * {
-    margin: 0;
-    font-size: 14px;
-  }
-  .followers > span {
     color: #a1a1a1;
     font-size: 12px;
+  }
+  .followers > p {
+    margin: 0;
   }
 </style>
 
@@ -85,6 +87,6 @@ export default {
     border: none;
   }
   .userCard .el-card__body {
-    padding: 10px;
+    padding: 8px;
   }
 </style>
