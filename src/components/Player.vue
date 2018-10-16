@@ -4,21 +4,26 @@
       <button @click="handleChangeTrack('previous')">
         <img src="../assets/icons/previous.svg" />
       </button>
-      <button @click="handlePlay" class="playButton">
+      <button @click="handlePlayPause" class="playButton">
         <img
-          :src=" isPlay ?
+          :src="(this.player && this.player.playing()) ?
             require('../assets/icons/pause.svg') :
             require('../assets/icons/play.svg')
           "
-          :style=" !isPlay && 'margin-left: 2px'"
+          :style="(!this.player||(this.player &&!this.player.playing())) && 'margin-left: 2px'"
         />
       </button>
       <button @click="handleChangeTrack('next')">
         <img src="../assets/icons/next.svg" />
       </button>
     </div>
-    <span class="pastTime">{{secondsToTime(seek)}}</span>
-    <span class="remainingTime">{{`- ${secondsToTime(duration - seek)}`}}</span>
+    <span class="pastTime">{{secondsToTime(pastTime)}}</span>
+    <span
+      class="remainingTime"
+      v-if="secondsToTime(duration - pastTime)"
+    >
+      {{`- ${secondsToTime(duration - pastTime)}`}}
+    </span>
     <el-slider
       class="seekBar"
       v-model="seekRange"
@@ -29,130 +34,218 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
 import { Howl } from 'howler';
 import secondsToTime from '@/utils/secondsToTime';
 
 export default {
   data() {
     return {
-      isPlay: false,
+      activeTrack: null,
       player: null,
-      activePlayerTrack: null,
       duration: 0,
-      seek: 0,
+      pastTime: 0,
       seekRange: 0,
     };
   },
-  computed: {
-    ...mapGetters({
-      activeTrack: 'activeTrack',
-      tracks: 'tracks',
-    }),
+  props: [
+    'tracks',
+    'currentTrack',
+    'setCurrentTrack',
+    'setCurrentTrackPastTime',
+    'setCurrentTrackDuration',
+    'outsideSeek',
+    'setCurrentTrackIsPlay',
+    'outsidePlayPause',
+  ],
+  destroyed() {
+    if (this.player) {
+      this.player.pause();
+      this.player = null;
+      this.seekRange = 0;
+      this.pastTime = 0;
+      this.duration = 0;
+    }
+  },
+  watch: {
+    outsidePlayPause(nextPlayPause, prevPlayPause) {
+      if (nextPlayPause !== prevPlayPause && this.player) {
+        this.handlePlayPause();
+      }
+    },
+    outsideSeek(nextSeek, prevSeek) {
+      if (
+        (nextSeek || nextSeek === 0) &&
+        (nextSeek !== prevSeek) &&
+        this.player
+      ) {
+        this.pastTime = nextSeek;
+        this.seekRange = nextSeek / (this.duration / 100);
+        this.player.seek(nextSeek);
+      }
+    },
+    currentTrack(nextCurrentTrack, prevCurrentTrack) {
+      if (
+        (prevCurrentTrack && nextCurrentTrack && prevCurrentTrack.id !== nextCurrentTrack.id) ||
+        (nextCurrentTrack && nextCurrentTrack.id && !prevCurrentTrack) ||
+        (prevCurrentTrack && !nextCurrentTrack)
+      ) {
+        if (this.setCurrentTrackPastTime) {
+          this.setCurrentTrackPastTime(0);
+        }
+        if (!nextCurrentTrack && this.player) {
+          this.player.pause();
+          this.player = null;
+          this.seekRange = 0;
+          this.pastTime = 0;
+          this.duration = 0;
+        }
+        this.activeTrack = nextCurrentTrack;
+      }
+    },
+    pastTime(nextPastTime, prevPastTime) {
+      if (
+        nextPastTime &&
+        nextPastTime > 0 &&
+        nextPastTime !== prevPastTime
+      ) {
+        if (this.setCurrentTrackPastTime) {
+          this.setCurrentTrackPastTime(nextPastTime);
+        }
+        this.seekRange = this.pastTime / (this.duration / 100);
+      }
+    },
+    duration(nextDuration, prevDuration) {
+      if (
+        nextDuration &&
+        nextDuration > 0 &&
+        nextDuration !== prevDuration &&
+        this.setCurrentTrackDuration
+      ) {
+        this.setCurrentTrackDuration(nextDuration);
+      }
+    },
+    activeTrack(nextActiveTrack, prevActiveTrack) {
+      if (!prevActiveTrack && nextActiveTrack) {
+        setTimeout(() => {
+          const seekSliderButtonElement = document.getElementsByClassName('el-slider__button-wrapper')[0];
+          if (seekSliderButtonElement) {
+            let startMouseDown = false;
+            seekSliderButtonElement.addEventListener('mousedown', () => {
+              startMouseDown = true;
+              this.player.pause();
+            }, false);
+            window.addEventListener('mouseup', (e) => {
+              if (startMouseDown) {
+                this.handleSeekChange(
+                  Math.round(e.clientX / (window.innerWidth / 100)),
+                ).then(() => {
+                  startMouseDown = false;
+                  this.player.play();
+                });
+              }
+            });
+          }
+        }, 500);
+      }
+      if (
+        (prevActiveTrack && nextActiveTrack && prevActiveTrack.id !== nextActiveTrack.id) ||
+        (nextActiveTrack && nextActiveTrack.id && !prevActiveTrack)
+      ) {
+        if (this.player) {
+          this.player.pause();
+          this.player = null;
+          this.seekRange = 0;
+          this.pastTime = 0;
+          this.duration = 0;
+        }
+        this.player = new Howl({
+          src: `${nextActiveTrack.stream_url}?client_id=a281614d7f34dc30b665dfcaa3ed7505`,
+          html5: true,
+          volume: 1.0,
+        });
+        this.player.play();
+        this.player.on('play', () => {
+          setInterval(() => {
+            if (this.player && this.player.playing()) {
+              this.duration = Math.round(this.player.duration() || 0);
+              this.pastTime = Math.round(this.player.seek() || 0);
+            }
+          }, 100);
+        });
+      }
+      if (!nextActiveTrack && this.player) {
+        this.player.pause();
+        this.activeTrack = null;
+        this.player = null;
+      }
+    },
+  },
+  updated() {
+    if (
+      (this.player && this.player.playing()) &&
+      this.duration > 0 &&
+      (this.duration === this.pastTime)
+    ) {
+      if ((this.tracks.indexOf(this.activeTrack) + 1) < this.tracks.length) {
+        this.handleChangeTrack('next');
+      } else {
+        this.pastTime = 0;
+        this.seekRange = 0;
+        this.player.pause();
+        if (this.setCurrentTrackIsPlay) {
+          this.setCurrentTrackIsPlay(false);
+        }
+      }
+    }
+    if (this.setCurrentTrackIsPlay) {
+      if ((this.player && this.player.playing())) {
+        this.setCurrentTrackIsPlay(true);
+      } else {
+        this.setCurrentTrackIsPlay(false);
+      }
+    }
   },
   methods: {
-    handlePlay() {
-      if (this.isPlay) {
+    handlePlayPause() {
+      if (this.player && this.player.playing()) {
         this.player.pause();
       } else {
-        if (this.seek === this.duration) {
+        if (this.pastTime === this.duration) {
           this.player.seek(0);
           this.seekRange = 0;
-          this.seek = 0;
+          this.pastTime = 0;
         }
         this.player.play();
       }
-      this.isPlay = !this.isPlay;
     },
     handleSeekChange(data) {
       return new Promise((resolve) => {
         const nextSeek = Math.round(data * (this.duration / 100));
         this.player.seek(nextSeek);
-        this.seek = nextSeek;
-        this.seekRange = nextSeek;
+        this.pastTime = nextSeek;
+        this.seekRange = data;
         resolve();
       });
     },
     handleChangeTrack(direction) {
       this.tracks.forEach((track, index) => {
-        if (this.activePlayerTrack.id === track.id) {
-          let nextIndex = null;
-          switch (direction) {
-            case 'next':
-              nextIndex = index + 1;
-              if (nextIndex < this.tracks.length) {
-                this.$store.dispatch('setActiveTeack', this.tracks[nextIndex]);
-              }
-              break;
-            case 'previous':
-              nextIndex = index - 1;
-              if (nextIndex >= 0) {
-                this.$store.dispatch('setActiveTeack', this.tracks[nextIndex]);
-              }
-              break;
-            default:
-              break;
+        if (this.currentTrack.id === track.id) {
+          let nextIndex = 0;
+          if (direction === 'next') {
+            nextIndex = index + 1;
+            if (nextIndex < this.tracks.length) {
+              this.setCurrentTrack(this.tracks[nextIndex]);
+            }
+          } else if (direction === 'previous') {
+            nextIndex = index - 1;
+            if (nextIndex >= 0) {
+              this.setCurrentTrack(this.tracks[nextIndex]);
+            }
           }
         }
       });
     },
     secondsToTime,
-  },
-  updated() {
-    if (!this.activePlayerTrack && this.activeTrack) {
-      setTimeout(() => {
-        const seekSliderButtonElement = document.getElementsByClassName('el-slider__button-wrapper')[0];
-        if (seekSliderButtonElement) {
-          let startMouseDown = false;
-          seekSliderButtonElement.addEventListener('mousedown', () => {
-            startMouseDown = true;
-            this.player.pause();
-          }, false);
-          window.addEventListener('mouseup', (e) => {
-            if (startMouseDown) {
-              this.handleSeekChange(Math.round(e.clientX / (window.innerWidth / 100))).then(() => {
-                startMouseDown = false;
-                this.player.play();
-              });
-            }
-          });
-        }
-      }, 500);
-    }
-    this.seekRange = this.seek / (this.duration / 100);
-    if (
-      this.activeTrack &&
-      (!this.activePlayerTrack || (this.activeTrack.id !== this.activePlayerTrack.id))
-    ) {
-      this.seekRange = 0;
-      this.seek = 0;
-      this.duration = 0;
-      if (this.player) this.player.pause();
-      this.activePlayerTrack = this.activeTrack;
-      this.player = new Howl({
-        src: `${this.activeTrack.stream_url}?client_id=a281614d7f34dc30b665dfcaa3ed7505`,
-        html5: true,
-        volume: 1.0,
-      });
-      this.isPlay = true;
-      this.player.on('play', () => {
-        setInterval(() => {
-          if (this.player && this.player.playing()) {
-            this.duration = Math.round(this.player.duration() || 0);
-            this.seek = Math.round(this.player.seek() || 0);
-          }
-        }, 100);
-      });
-      this.player.play();
-    } else if (!this.activeTrack && this.player) {
-      this.player.pause();
-      this.activePlayerTrack = null;
-      this.player = null;
-      this.isPlay = false;
-    } else if (this.duration > 0 && this.duration === this.seek) {
-      this.isPlay = false;
-      this.player.pause();
-    }
   },
 };
 </script>
@@ -167,6 +260,7 @@ export default {
     background: #fff;
     display: flex;
     height: 65px;
+    z-index: 99999;
   }
   .mainButtons {
     margin: 0 auto;
