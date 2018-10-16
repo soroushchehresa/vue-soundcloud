@@ -3,13 +3,13 @@
     <div class="wrapper">
       <div
         :style="`backgroundImage: url(${trackData.artwork_url})`"
-        :class="`artwork${(activeTrack && (activeTrack.id === trackData.id)) ? ' active' : ''}`"
+        :class="`artwork${(currentTrack && (currentTrack.id === trackData.id)) ? ' active' : ''}`"
         @click="onClickTrack(trackData)"
       >
         <div class="playOverlay">
           <img class="playing" src="../assets/playing.gif" />
-          <img class="stop" src="../assets/icons/stop.svg" />
-          <img class="play" src="../assets/icons/play.svg" />
+          <font-awesome-icon icon="stop-circle" class="stop" />
+          <font-awesome-icon icon="play-circle" class="play" />
         </div>
       </div>
       <div class="bottomWrapper">
@@ -28,15 +28,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 export default {
-  computed: {
-    ...mapGetters({
-      activeTrack: 'activeTrack',
-    }),
-  },
-  props: ['trackData', 'onClickTrack'],
+  props: ['trackData', 'onClickTrack', 'currentTrack'],
 };
 </script>
 
@@ -82,8 +75,9 @@ export default {
     opacity: 0;
     transition: all linear .2s;
   }
-  .artwork .playOverlay > img.stop {
-    width: 35px;
+  .artwork .playOverlay > svg {
+    font-size: 50px;
+    color: #666666;
   }
   .artwork:hover .playOverlay, .artwork.active .playOverlay {
     opacity: 1;
