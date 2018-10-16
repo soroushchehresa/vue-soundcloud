@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <el-row>
-      <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="pageWrapper">
+  <div sticky-container>
+    <el-row :style="`padding-bottom: ${currentTrack ? '70px' : '0'}`">
+      <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="container">
         <el-row :gutter="15">
           <el-col :span="18">
             <el-card shadow="always" class="mainUserCardWrapper">
-              <h1 v-if="getUserProfileLoading">Loading...</h1>
+              <h4 v-if="getUserProfileLoading">Loading...</h4>
               <div v-if="userProfileData && !getUserProfileLoading">
                 <img
                   :src="userProfileData.avatar_url"
@@ -14,59 +14,109 @@
                 />
                 <h3>{{userProfileData.username}}</h3>
                 <div class="otherDetailsWrapper">
-                  <p><i class="el-icon-location"></i> {{userProfileData.country || 'Earth'}}</p>
-                  <p>{{userProfileData.followers_count}} Followers</p>
-                  <el-tooltip
-                    effect="dark"
-                    :content="userProfileData.website_title"
-                    placement="top"
-                  >
-                    <a target="_blank" :href="userProfileData.website">Website</a>
-                  </el-tooltip>
+                  <p>
+                    <font-awesome-icon icon="map-marker-alt" />
+                    {{userProfileData.country || 'Earth'}}
+                  </p>
+                  <p>
+                    <font-awesome-icon icon="users" />
+                    {{userProfileData.followers_count}}
+                  </p>
+                  <a target="_blank" :href="userProfileData.website">
+                    <font-awesome-icon icon="globe" />
+                    {{userProfileData.website_title}}
+                  </a>
                 </div>
                 <p class="description" v-html="userProfileData.description"></p>
               </div>
             </el-card>
+            <el-row :gutter="15" class="userMusicsWrapper">
+              <h4 v-if="getUserTracksLoading">Loading...</h4>
+              <track-item-row
+                v-if="!getUserTracksLoading && (userTracksData && userTracksData.length > 0)"
+                v-for="(track, i) in userTracksData"
+                :key="i"
+                :trackData="track"
+                :onClickTrack="handleClickTrack"
+                :activeTrack="currentTrack"
+                :activeTrackPastTime="currentTrackPastTime"
+                :activeTrackDuration="currentTrackDuration"
+                :handleSeek="handleSongItemSeekTo"
+                :handlePlayPause="handleSongItemPlayPause"
+                :isPlay="isPlay"
+              />
+            </el-row>
           </el-col>
-          <el-col :span="6" class="followingWrapper">
-            <h3 v-if="getUserFollowingsLoading">Loading...</h3>
-            <h3 v-if="!getUserFollowingsLoading">
-              Following {{userFollowingsData && userFollowingsData.length}} Users
-            </h3>
-            <user-item
-              v-if="!getUserFollowingsLoading"
-              v-for="(user, i) in userFollowingsData"
-              :key="i"
-              :userData="user"
-            />
-          </el-col>
+          <div
+            v-sticky="true"
+            sticky-side="both"
+            :class="`stickyWrapper${currentTrack ? ' playerOpened' : ''}`"
+          >
+            <el-col :span="6" class="followingWrapper">
+              <h4 v-if="getUserFollowingsLoading">Loading...</h4>
+              <h4 v-if="!getUserFollowingsLoading">
+                Following {{userFollowingsData && userFollowingsData.length}} Users
+              </h4>
+              <user-item
+                v-if="!getUserFollowingsLoading"
+                v-for="(user, i) in userFollowingsData"
+                :key="i"
+                :userData="user"
+              />
+              </el-col>
+          </div>
         </el-row>
       </el-col>
     </el-row>
+    <Player
+      :tracks="userTracksData"
+      :currentTrack="currentTrack"
+      :setCurrentTrack="handleSetCurrentTrack"
+      :setCurrentTrackPastTime="handleSetCurrentTrackPastTime"
+      :setCurrentTrackDuration="handleSetCurrentTrackDuration"
+      :setCurrentTrackIsPlay="handleSetCurrentTrackIsPlay"
+      :outsideSeek="trackItemSeek"
+      :outsidePlayPause="currentTrackPlayPause"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
-import UserItem from '../components/UserItem';
+import Sticky from 'vue-sticky-directive';
+import UserItem from '@/components/UserItem';
+import TrackItemRow from '@/components/TrackItemRow';
+import Player from '@/components/Player';
 
 export default {
   data() {
-    return {};
+    return {
+      currentTrack: null,
+      currentTrackPastTime: 0,
+      currentTrackDuration: 0,
+      currentTrackSeek: null,
+      trackItemSeek: 0,
+      currentTrackPlayPause: false,
+      isPlay: false,
+    };
   },
   mounted() {
-    const userID = this.$route.params.id;
-    this.$store.dispatch('getUserProfile', userID);
-    this.$store.dispatch('getUserFollowings', userID);
+    const { params: { id } } = this.$route;
+    this.$store.dispatch('getUserProfile', id);
+    this.$store.dispatch('getUserFollowings', id);
+    this.$store.dispatch('getUserTracks', id);
   },
   components: {
     UserItem,
+    TrackItemRow,
+    Player,
   },
   watch: {
-    $route({ params: { id: newUserID } }, { params: { id: oldUserID } }) {
-      if (newUserID !== oldUserID) {
-        this.$store.dispatch('getUserProfile', newUserID);
-        this.$store.dispatch('getUserFollowings', newUserID);
+    $route({ params: { id: nextUserID } }, { params: { id: prevUserID } }) {
+      if (nextUserID !== prevUserID) {
+        this.$store.dispatch('getUserProfile', nextUserID);
+        this.$store.dispatch('getUserFollowings', nextUserID);
+        this.$store.dispatch('getUserTracks', nextUserID);
       }
     },
   },
@@ -74,23 +124,59 @@ export default {
     ...mapGetters({
       getUserProfileLoading: 'getUserProfileLoading',
       userProfileData: 'userProfileData',
-      userProfileFail: 'userProfileFail',
+      getUserProfileFail: 'getUserProfileFail',
       getUserFollowingsLoading: 'getUserFollowingsLoading',
       userFollowingsData: 'userFollowingsData',
-      userFollowingsFail: 'userFollowingsFail',
+      getUserFollowingsFail: 'getUserFollowingsFail',
+      getUserTracksLoading: 'getUserTracksLoading',
+      userTracksData: 'userTracksData',
+      getUserTracksFail: 'getUserTracksFail',
     }),
   },
-  methods: {},
+  directives: {
+    Sticky,
+  },
+  methods: {
+    handleClickTrack(trackData) {
+      if (this.currentTrack && trackData.id === this.currentTrack.id) {
+        this.currentTrack = null;
+      } else {
+        this.currentTrack = trackData;
+      }
+    },
+    handleSetCurrentTrack(currentTrack) {
+      this.currentTrack = currentTrack;
+    },
+    handleSetCurrentTrackPastTime(pastTime) {
+      this.currentTrackPastTime = pastTime;
+    },
+    handleSetCurrentTrackDuration(duration) {
+      this.currentTrackDuration = duration;
+    },
+    handleSongItemSeekTo(time) {
+      this.trackItemSeek = Math.floor(time);
+    },
+    handleSongItemPlayPause() {
+      this.currentTrackPlayPause = !this.currentTrackPlayPause;
+    },
+    handleSetCurrentTrackIsPlay(isPlay) {
+      this.isPlay = isPlay;
+    },
+  },
 };
 </script>
 
 <style scoped>
-  .pageWrapper {
+  .container {
     margin: 0 auto;
     float: none;
   }
   .followingWrapper {
     background: #fff;
+    overflow-y: scroll;
+    height: 100vh;
+    position: absolute;
+    right: 0;
   }
   .mainUserCardWrapper .avatar {
     border-radius: 50px;
@@ -102,5 +188,20 @@ export default {
     display: inline-block;
     margin: 0 20px;
     color: #a1a1a1;
+  }
+  .mainUserCardWrapper .otherDetailsWrapper > * > svg {
+    margin-right: 5px;
+  }
+  .userMusicsWrapper {
+    margin: 20px 0 0 !important;
+  }
+  .description {
+    font-size: 14px;
+  }
+  .stickyWrapper.top-sticky > div {
+    height: calc(100vh - 20px);
+  }
+  .stickyWrapper.playerOpened.top-sticky > div {
+    height: calc(100vh - 90px);
   }
 </style>

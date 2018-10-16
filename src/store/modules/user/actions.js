@@ -27,4 +27,17 @@ export default {
         context.commit('GET_USER_FOLLOWINGS_FAIL', error);
       });
   },
+  getUserTracks: (context, id) => {
+    context.commit('GET_USER_TRACKS');
+    API.get({
+      url: `users/${id}/tracks`,
+      query: {},
+    })
+      .then((response) => {
+        context.commit('GET_USER_TRACKS_SUCCESS', response);
+      })
+      .catch((error) => {
+        context.commit('GET_USER_TRACKS_FAIL', error);
+      });
+  },
 };

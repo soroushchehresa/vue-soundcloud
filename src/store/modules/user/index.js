@@ -5,10 +5,13 @@ import mutations from './mutations';
 const defaultState = {
   getUserProfileLoading: false,
   userProfileData: null,
-  userProfileFail: null,
+  getUserProfileFail: null,
   getUserFollowingsLoading: false,
   userFollowingsData: null,
-  userFollowingsFail: null,
+  getUserFollowingsFail: null,
+  getUserTracksLoading: false,
+  userTracksData: null,
+  getUserTracksFail: null,
 };
 
 export default {

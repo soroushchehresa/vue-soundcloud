@@ -8,7 +8,7 @@ export default {
   },
   GET_USER_PROFILE_FAIL: (state, data) => {
     state.getUserProfileLoading = false;
-    state.userProfileFail = data;
+    state.getUserProfileFail = data;
   },
   GET_USER_FOLLOWINGS: (state) => {
     state.getUserFollowingsLoading = true;
@@ -19,6 +19,18 @@ export default {
   },
   GET_USER_FOLLOWINGS_FAIL: (state, data) => {
     state.getUserFollowingsLoading = false;
-    state.userFollowingsFail = data;
+    state.getUserFollowingsFail = data;
+  },
+  GET_USER_TRACKS: (state) => {
+    state.getUserTracksLoading = true;
+  },
+  GET_USER_TRACKS_SUCCESS: (state, data) => {
+    state.getUserTracksLoading = false;
+    state.userTracksData = data;
+  },
+  GET_USER_TRACKS_FAIL: (state, data) => {
+    state.getUserTracksLoading = false;
+    state.getUserTracksFail = data;
   },
 };
+
