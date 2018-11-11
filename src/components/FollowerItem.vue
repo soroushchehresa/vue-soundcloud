@@ -14,7 +14,9 @@
         </div>
       </div>
       <div class="followers">
-        <p>{{userData.followers_count}}</p>
+        <p>
+          {{numberSeparator(userData.followers_count)}}
+        </p>
         <span>Followers</span>
       </div>
     </div>
@@ -23,6 +25,7 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import numberSeparator from '@/utils/number';
 
 export default {
   computed: {
@@ -31,6 +34,9 @@ export default {
     }),
   },
   props: ['userData'],
+  methods: {
+    numberSeparator,
+  },
 };
 </script>
 

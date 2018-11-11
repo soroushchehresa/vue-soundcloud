@@ -37,9 +37,16 @@
           </router-link>
         </div>
         <div class="otherDetails">
-          <span><font-awesome-icon icon="comment" /> {{trackData.comment_count}}</span>
-          <span><font-awesome-icon icon="heart" /> {{trackData.favoritings_count}}</span>
-          <span><font-awesome-icon icon="play" /> {{trackData.playback_count}}</span>
+          <span>
+            <font-awesome-icon icon="comment" />
+            {{numberSeparator(trackData.comment_count)}}
+          </span>
+          <span>
+            <font-awesome-icon icon="heart" />
+            {{numberSeparator(trackData.favoritings_count)}}</span>
+          <span>
+            <font-awesome-icon icon="play" />
+            {{numberSeparator(trackData.playback_count)}}</span>
         </div>
       </div>
     </div>
@@ -69,6 +76,8 @@
 </template>
 
 <script>
+import numberSeparator from '@/utils/number';
+
 export default {
   data() {
     return {
@@ -98,6 +107,7 @@ export default {
         this.handleSeek(((clientX - left) / (250 / 100)) * (this.activeTrackDuration / 100));
       }
     },
+    numberSeparator,
   },
 };
 </script>

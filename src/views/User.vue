@@ -20,7 +20,7 @@
                   </p>
                   <p>
                     <font-awesome-icon icon="users" />
-                    {{userProfileData.followers_count}}
+                    {{numberSeparator(userProfileData.followers_count)}}
                   </p>
                   <a target="_blank" :href="userProfileData.website">
                     <font-awesome-icon icon="globe" />
@@ -87,6 +87,7 @@ import Sticky from 'vue-sticky-directive';
 import FollowerItem from '@/components/FollowerItem';
 import TrackItemRow from '@/components/TrackItemRow';
 import Player from '@/components/Player';
+import numberSeparator from '@/utils/number';
 
 export default {
   data() {
@@ -162,6 +163,7 @@ export default {
     handleSetCurrentTrackIsPlay(isPlay) {
       this.isPlay = isPlay;
     },
+    numberSeparator,
   },
 };
 </script>
