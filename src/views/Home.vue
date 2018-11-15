@@ -22,7 +22,9 @@
         </el-row>
       </el-col>
       <el-col :xl="24">
-        <h1 v-if="getTracksLoading || searchTracksLoading">Loading...</h1>
+        <h1 v-if="getTracksLoading || searchTracksLoading">
+          Loading...
+        </h1>
       </el-col>
     </el-row>
     <Player
@@ -46,7 +48,10 @@ export default {
     };
   },
   mounted() {
-    this.$store.dispatch('getTracks', { genre: 'house', page: 1 });
+    this.$store.dispatch('getTracks', {
+      genre: 'house',
+      page: 1,
+    });
     window.addEventListener('scroll', this.scroll);
   },
   destroyed() {
@@ -72,10 +77,10 @@ export default {
     scroll() {
       const page = this.lastPage ? this.lastPage + 1 : this.page += 1;
       const bottomOfWindow =
-        document.documentElement.scrollTop +
-        window.innerHeight ===
-        document.documentElement.offsetHeight;
+        (document.documentElement.scrollTop + window.innerHeight) >
+        (document.documentElement.offsetHeight - 50);
       if (bottomOfWindow && !this.getTracksLoading) {
+        debugger;
         if (this.searchQuery) {
           this.$store.dispatch('search', {
             query: this.searchQuery,

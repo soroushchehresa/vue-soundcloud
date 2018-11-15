@@ -4,44 +4,30 @@
       <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="container">
         <el-row :gutter="15">
           <el-col :span="18">
-            <el-card shadow="always" class="mainUserCardWrapper">
-              <h4 v-if="getUserProfileLoading">
+            <div class="mainTrackWrapper">
+              <h4 v-if="getTrackLoading">
                 Loading...
               </h4>
-              <div v-if="userProfileData && !getUserProfileLoading">
-                <img
-                  :src="userProfileData.avatar_url"
-                  :alt="userProfileData.username"
-                  class="avatar"
-                />
-                <h3>
-                  {{userProfileData.username}}
-                </h3>
-                <div class="otherDetailsWrapper">
-                  <p>
-                    <font-awesome-icon icon="map-marker-alt" />
-                    {{userProfileData.country
-                    ||
-                    'Earth'}}
-                  </p>
-                  <p>
-                    <font-awesome-icon icon="users" />
-                    {{numberSeparator(userProfileData.followers_count)}}
-                  </p>
-                  <a target="_blank" :href="userProfileData.website">
-                    <font-awesome-icon icon="globe" />
-                    {{userProfileData.website_title}}
-                  </a>
-                </div>
-                <p class="description" v-html="userProfileData.description"></p>
-              </div>
-            </el-card>
+              <track-item-row
+                v-if="!getTrackLoading"
+                :trackData="trackData"
+                :onClickTrack="handleClickTrack"
+                :activeTrack="currentTrack"
+                :activeTrackPastTime="currentTrackPastTime"
+                :activeTrackDuration="currentTrackDuration"
+                :handleSeek="handleSongItemSeekTo"
+                :handlePlayPause="handleSongItemPlayPause"
+                :isPlay="isPlay"
+                :main="true"
+              />
+            </div>
             <el-row :gutter="15" class="userMusicsWrapper">
               <h4 v-if="getUserTracksLoading">
                 Loading...
               </h4>
               <track-item-row
-                v-if="!getUserTracksLoading && (userTracksData && userTracksData.length > 0)"
+                v-if="(!getUserTracksLoading && !getTrackLoading) &&
+                (userTracksData && userTracksData.length > 0)"
                 v-for="(track, i) in userTracksData"
                 :key="i"
                 :trackData="track"
@@ -61,21 +47,17 @@
             :class="`stickyWrapper${currentTrack ? ' playerOpened' : ''}`"
           >
             <el-col :span="6" class="followingWrapper">
-              <h4 v-if="getUserFollowingsLoading">
+              <h4 v-if="!getTrackCommentsLoading">
+                Comments
+              </h4>
+              <h4 v-if="getTrackCommentsLoading">
                 Loading...
               </h4>
-              <h4 v-if="!getUserFollowingsLoading">
-                Following
-                {{userFollowingsData
-                &&
-                userFollowingsData.length}}
-                Users
-              </h4>
-              <follower-item
-                v-if="!getUserFollowingsLoading"
-                v-for="(user, i) in userFollowingsData"
+              <comment-item
+                v-if="!getTrackCommentsLoading"
+                v-for="(comment, i) in trackCommentsData"
                 :key="i"
-                :userData="user"
+                :commentData="comment"
               />
             </el-col>
           </div>
@@ -98,7 +80,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Sticky from 'vue-sticky-directive';
-import FollowerItem from '@/components/FollowerItem';
+import CommentItem from '@/components/CommentItem';
 import TrackItemRow from '@/components/TrackItemRow';
 import Player from '@/components/Player';
 import numberSeparator from '@/utils/number';
@@ -117,32 +99,35 @@ export default {
   },
   mounted() {
     const { params: { id } } = this.$route;
-    this.$store.dispatch('getUserProfile', id);
-    this.$store.dispatch('getUserFollowings', id);
-    this.$store.dispatch('getUserTracks', id);
+    this.$store.dispatch('getTrack', id);
+    this.$store.dispatch('getTrackComments', id);
   },
   components: {
-    FollowerItem,
+    CommentItem,
     TrackItemRow,
     Player,
   },
   watch: {
     $route({ params: { id: nextUserID } }, { params: { id: prevUserID } }) {
       if (nextUserID !== prevUserID) {
-        this.$store.dispatch('getUserProfile', nextUserID);
-        this.$store.dispatch('getUserFollowings', nextUserID);
-        this.$store.dispatch('getUserTracks', nextUserID);
+        this.$store.dispatch('getTrack', nextUserID);
+        this.$store.dispatch('getTrackComments', nextUserID);
+      }
+    },
+    trackData(nextTrackData, prevTrackData) {
+      if (nextTrackData && nextTrackData !== prevTrackData) {
+        this.$store.dispatch('getUserTracks', nextTrackData.user.id);
       }
     },
   },
   computed: {
     ...mapGetters({
-      getUserProfileLoading: 'getUserProfileLoading',
-      userProfileData: 'userProfileData',
-      getUserProfileFail: 'getUserProfileFail',
-      getUserFollowingsLoading: 'getUserFollowingsLoading',
-      userFollowingsData: 'userFollowingsData',
-      getUserFollowingsFail: 'getUserFollowingsFail',
+      getTrackLoading: 'getTrackLoading',
+      trackData: 'trackData',
+      getTrackFail: 'getTrackFail',
+      getTrackCommentsLoading: 'getTrackCommentsLoading',
+      trackCommentsData: 'trackCommentsData',
+      getTrackCommentsFail: 'getTrackCommentsFail',
       getUserTracksLoading: 'getUserTracksLoading',
       userTracksData: 'userTracksData',
       getUserTracksFail: 'getUserTracksFail',
@@ -195,25 +180,13 @@ export default {
     position: absolute;
     right: 0;
   }
-  .mainUserCardWrapper .avatar {
-    border-radius: 50px;
-  }
-  .mainUserCardWrapper .otherDetailsWrapper {
-    text-align: center;
-  }
-  .mainUserCardWrapper .otherDetailsWrapper > * {
-    display: inline-block;
-    margin: 0 20px;
-    color: #a1a1a1;
-  }
-  .mainUserCardWrapper .otherDetailsWrapper > * > svg {
-    margin-right: 5px;
+  .mainTrackWrapper {
+    margin: 0 0 20px;
+    width: 100%;
+    display: flex;
   }
   .userMusicsWrapper {
-    margin: 20px 0 0 !important;
-  }
-  .description {
-    font-size: 14px;
+    margin: 0 !important;
   }
   .stickyWrapper.top-sticky > div {
     height: calc(100vh - 20px);

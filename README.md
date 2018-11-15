@@ -26,7 +26,7 @@ Implement essential functionalities.
 Add new features and improve essential functionalities.
 
 - [x] Implement user page
-- [ ] Implement song page
+- [x] Implement song page
 - [ ] Improve and complete music player
 - [ ] Fix responsive issues
 

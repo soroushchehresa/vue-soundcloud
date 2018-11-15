@@ -7,8 +7,8 @@ export default {
       url: 'tracks',
       query: {
         linked_partitioning: page,
-        limit: 40,
-        offset: 40 * (page - 1),
+        limit: 80,
+        offset: 80 * (page - 1),
         tags: genre,
       },
     })

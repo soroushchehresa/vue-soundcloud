@@ -1,5 +1,5 @@
 <template>
-  <el-col :xl="24" class="itemWrapper">
+  <el-col :xl="24" :class="`itemWrapper${main ? ' main':''}`">
     <div
       :style="`backgroundImage: url(${trackData.artwork_url})`"
       class="artwork"
@@ -28,7 +28,9 @@
       </div>
     </div>
     <div class="detailsWrapper">
-      <a class="title" href="#">{{trackData.title}}</a>
+      <router-link class="title" :to="`/tracks/${trackData.id}`">
+        {{trackData.title}}
+      </router-link>
       <div class="userWrapper">
         <div class="avatarWrapper">
           <img class="avatar" :src="trackData.user.avatar_url" :alt="trackData.user.username" />
@@ -49,6 +51,9 @@
             {{numberSeparator(trackData.playback_count)}}</span>
         </div>
       </div>
+      <p class="description">
+        {{trackData.description}}
+      </p>
     </div>
     <div
       :class="`waveformWrapper${
@@ -93,6 +98,7 @@ export default {
     'handleSeek',
     'isPlay',
     'handlePlayPause',
+    'main',
   ],
   methods: {
     handleHoverWave({ currentTarget, clientX }) {
@@ -117,8 +123,7 @@ export default {
     background: #fff;
     overflow: hidden;
     box-sizing: border-box;
-    padding-left: 7.5px;
-    padding-right: 7.5px;
+    padding-right: 250px !important;
     display: flex;
     align-items: center;
     height: 80px;
@@ -126,6 +131,9 @@ export default {
     border-color: #e0e0e0;
     border-width: 0 1px 1px 1px;
     border-style: solid;
+  }
+  .main.itemWrapper {
+    height: 150px;
   }
   .artwork {
     width: 60px;
@@ -137,6 +145,10 @@ export default {
     background-color: #e1e1e1;
     float: left;
     cursor: pointer;
+  }
+  .main .artwork {
+    width: 130px;
+    height: 130px;
   }
   .artwork > .playOverlay, .artwork > .pauseOverlay {
     width: 100%;
@@ -170,26 +182,41 @@ export default {
     flex-direction: column;
     overflow: hidden;
     align-items: flex-start;
-    justify-content: center;
     position: relative;
+    padding-left: 20px;
+  }
+  .main .detailsWrapper {
+    display: block;
+    height: 150px;
+    padding: 10px 0 0 20px;
+    box-sizing: border-box;
+    width: calc(100% - 130px);
   }
   .userWrapper {
     flex-direction: row;
     display: flex;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+  }
+  .main .userWrapper {
+    flex-direction: column;
+    align-items: flex-start;
   }
   .avatarWrapper {
     flex-direction: row;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-right: 20px;
   }
   .avatar {
     width: 25px;
     height: 25px;
     border-radius: 20px;
-    margin: 0 10px 0 20px;
+    margin: 5px 10px 5px 0;
+  }
+  .main .avatar {
+    margin: 5px 10px 5px 0;
   }
   .title {
     text-overflow: ellipsis;
@@ -197,8 +224,13 @@ export default {
     white-space: nowrap;
     text-align: left;
     display: block;
-    margin: 0 0 6px 20px;
+    margin: 0 0 5px;
     font-size: 15px;
+    width: 100%;
+  }
+  .main .title {
+    font-size: 18px;
+    width: calc(100% - 20px);
   }
   .title:hover {
     color: #505155;
@@ -210,11 +242,8 @@ export default {
   .username:hover {
     color: #6c6d71;
   }
-  .otherDetails {
-    margin-left: 10px;
-  }
   .otherDetails > span {
-    margin: 0 8px;
+    margin: 0 15px 0 0;
     font-size: 12px;
     color: #909297;
   }
@@ -297,6 +326,18 @@ export default {
     display: none;
   }
   .waveformWrapper.playing > .playedBackground {
+    display: block;
+  }
+  .description {
+    display: none;
+    font-size: 13px;
+    margin: 0;
+    text-align: left;
+    margin-top: 5px;
+    height: 35px;
+    overflow: hidden;
+  }
+  .main .description {
     display: block;
   }
 </style>

@@ -1,13 +1,13 @@
-export default (secs) => {
-  if (!secs) {
-    return '';
+const padZero = (num, size) => {
+  let s = String(num);
+  while (s.length < size) {
+    s = `0${s}`;
   }
-  const roundSecs = Math.round(secs);
-  const hours = Math.floor(roundSecs / (60 * 60)).toString();
-  const divisorForMinutes = roundSecs % (60 * 60);
-  const minutes = Math.floor(divisorForMinutes / 60).toString();
-  const divisorForSeconds = divisorForMinutes % 60;
-  const seconds = Math.ceil(divisorForSeconds).toString();
-  // eslint-disable-next-line
-  return `${hours === '0' ? '' : `${hours.length === 1 ? `0${hours}` : hours}:`}${minutes === '0' ? '00' : minutes.length === 1 ? `0${minutes}` : minutes}:${seconds === '0' ? '00' : seconds.length === 1 ? `0${seconds}` : seconds}`;
+  return s;
+};
+
+export default (num) => {
+  const minutes = padZero(Math.floor(num / 60), 2);
+  const seconds = padZero(num % 60, 2);
+  return `${minutes}:${seconds}`;
 };

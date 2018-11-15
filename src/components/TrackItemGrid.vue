@@ -17,7 +17,9 @@
           <img class="avatar" :src="trackData.user.avatar_url" :alt="trackData.user.username" />
         </div>
         <div class="titleWrappper">
-          <a class="title trackTitle" href="#">{{trackData.title}}</a>
+          <router-link class="title trackTitle" :to="`/tracks/${trackData.id}`">
+            {{trackData.title}}
+          </router-link>
           <router-link class="title username" :to="`/users/${trackData.user.id}`">
             {{trackData.user.username}}
           </router-link>
