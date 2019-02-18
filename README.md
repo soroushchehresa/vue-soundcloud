@@ -1,4 +1,4 @@
-<img title="vue-soundcloud" src="bg.jpg" width="100%">
+<img title="vue-soundcloud" src="screenshot.jpg" width="100%">
 
 # Vue SoundCloud
 This is a simple Soundcloud client built with `Vue.js 2`.
