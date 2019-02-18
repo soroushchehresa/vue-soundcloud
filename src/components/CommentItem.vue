@@ -55,6 +55,7 @@ export default {
     height: 30px;
     border-radius: 20px;
     margin-top: 3px;
+    background-color: #eee;
   }
   .detailsWrapper {
     margin-left: 10px;

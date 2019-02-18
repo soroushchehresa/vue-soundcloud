@@ -3,11 +3,12 @@
     <div class="wrapper">
       <div
         :style="`backgroundImage: url(${trackData.artwork_url})`"
-        :class="`artwork${(currentTrack && (currentTrack.id === trackData.id)) ? ' active' : ''}`"
-        @click="onClickTrack(trackData)"
+        :class="`artwork${(playerCurrentTrack && (playerCurrentTrack.id === trackData.id))
+         ? ' active' : ''}`"
+        @click="onClick(trackData)"
       >
         <div class="playOverlay">
-          <img class="playing" src="../assets/playing.gif" />
+          <img v-if="isPlay" class="playing" src="../assets/playing.gif" />
           <font-awesome-icon icon="stop-circle" class="stop" />
           <font-awesome-icon icon="play-circle" class="play" />
         </div>
@@ -30,8 +31,16 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  props: ['trackData', 'onClickTrack', 'currentTrack'],
+  computed: {
+    ...mapGetters({
+      playerCurrentTrack: 'playerCurrentTrack',
+      isPlay: 'isPlay',
+    }),
+  },
+  props: ['trackData', 'onClick'],
 };
 </script>
 

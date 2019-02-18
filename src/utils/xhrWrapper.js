@@ -14,7 +14,7 @@ class Client {
     async function decorateRequest({ url, data, query }) {
       const queryStrings = qs.stringify({
         ...query,
-        client_id: 'a281614d7f34dc30b665dfcaa3ed7505',
+        client_id: process.env.SOUNDCLOUD_CLIENT_ID,
       });
       return {
         request: {

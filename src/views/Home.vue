@@ -7,8 +7,7 @@
             v-for="(track, i) in tracks"
             :key="i"
             :trackData="track"
-            :onClickTrack="handleClickTrack"
-            :currentTrack="currentTrack"
+            :onClick="handleClickTrack"
           />
         </el-row>
         <el-row :gutter="15" v-if="searchResults.length > 0">
@@ -16,8 +15,7 @@
             v-for="(track, i) in searchResults"
             :key="i"
             :trackData="track"
-            :onClickTrack="handleClickTrack"
-            :currentTrack="currentTrack"
+            :onClick="handleClickTrack"
           />
         </el-row>
       </el-col>
@@ -27,16 +25,12 @@
         </h1>
       </el-col>
     </el-row>
-    <Player
-      :tracks="(searchResults.length > 0) ? searchResults : tracks"
-      :currentTrack="currentTrack"
-      :setCurrentTrack="handleSetCurrentTrack"
-    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import _ from 'lodash';
 import TrackItemGrid from '@/components/TrackItemGrid';
 import Player from '@/components/Player';
 
@@ -54,8 +48,18 @@ export default {
     });
     window.addEventListener('scroll', this.scroll);
   },
+  watch: {
+    tracks(nextTracks, prevTracks) {
+      if (nextTracks && nextTracks.length > 0 && !_.isEqual(nextTracks, prevTracks)) {
+        this.$store.dispatch('setPlayerTracks', nextTracks);
+      }
+    },
+  },
   destroyed() {
     window.removeEventListener('scroll', this.scroll);
+    this.$store.dispatch('pause');
+    this.$store.dispatch('setPlayerTracks', []);
+    this.$store.dispatch('setPlayerCurrentTrack', null);
   },
   components: {
     TrackItemGrid,
@@ -71,6 +75,7 @@ export default {
       searchResults: 'searchResults',
       searchQuery: 'searchQuery',
       lastSearchPage: 'lastSearchPage',
+      playerCurrentTrack: 'playerCurrentTrack',
     }),
   },
   methods: {
@@ -80,7 +85,6 @@ export default {
         (document.documentElement.scrollTop + window.innerHeight) >
         (document.documentElement.offsetHeight - 50);
       if (bottomOfWindow && !this.getTracksLoading) {
-        debugger;
         if (this.searchQuery) {
           this.$store.dispatch('search', {
             query: this.searchQuery,
@@ -95,14 +99,11 @@ export default {
       }
     },
     handleClickTrack(trackData) {
-      if (this.currentTrack && trackData.id === this.currentTrack.id) {
-        this.currentTrack = null;
+      if (this.playerCurrentTrack && this.playerCurrentTrack.id === trackData.id) {
+        this.$store.dispatch('setPlayerCurrentTrack', null);
       } else {
-        this.currentTrack = trackData;
+        this.$store.dispatch('setPlayerCurrentTrack', trackData);
       }
-    },
-    handleSetCurrentTrack(currentTrack) {
-      this.currentTrack = currentTrack;
     },
   },
 };

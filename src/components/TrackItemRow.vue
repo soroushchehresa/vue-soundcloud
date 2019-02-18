@@ -6,23 +6,20 @@
     >
       <div
         :class="`playOverlay${
-          (activeTrack && (activeTrack.id === trackData.id)) && !isPlay ? ' active' :
-            ((activeTrack && trackData && (activeTrack.id === trackData.id))
+          (playerCurrentTrack && (playerCurrentTrack.id === trackData.id)) && !isPlay ? ' active' :
+            ((playerCurrentTrack && trackData && (playerCurrentTrack.id === trackData.id))
              && isPlay) ? ' palying' : ''
         }`"
-        @click="
-          (!activeTrack || (activeTrack && activeTrack.id !== trackData.id))
-            ? onClickTrack(trackData) : (!activeTrack ||
-             (activeTrack && trackData && (activeTrack.id === trackData.id))) && handlePlayPause()
-        "
+        @click="onPlayTrack(trackData, main)"
       >
         <font-awesome-icon icon="play" />
       </div>
       <div
         :class="`pauseOverlay${
-          (activeTrack && trackData && (activeTrack.id === trackData.id)) && isPlay ? ' active' : ''
+          (playerCurrentTrack && trackData && (playerCurrentTrack.id === trackData.id)
+          ) && isPlay ? ' active' : ''
         }`"
-        @click="onClickTrack(trackData)"
+        @click="onPlayTrack(trackData, main)"
       >
         <font-awesome-icon icon="stop" />
       </div>
@@ -45,10 +42,12 @@
           </span>
           <span>
             <font-awesome-icon icon="heart" />
-            {{numberSeparator(trackData.favoritings_count)}}</span>
+            {{numberSeparator(trackData.favoritings_count)}}
+          </span>
           <span>
             <font-awesome-icon icon="play" />
-            {{numberSeparator(trackData.playback_count)}}</span>
+            {{numberSeparator(trackData.playback_count)}}
+          </span>
         </div>
       </div>
       <p class="description">
@@ -57,7 +56,7 @@
     </div>
     <div
       :class="`waveformWrapper${
-        (activeTrack && (activeTrack.id === trackData.id)) ? ' playing' : ''
+        (playerCurrentTrack && (playerCurrentTrack.id === trackData.id)) ? ' playing' : ''
       }`"
       @mousemove="handleHoverWave"
       @click="handleClickWave"
@@ -65,7 +64,7 @@
       <div
         class="waveform"
         :style="`background-image: url(${trackData.waveform_url})`"
-        @click="onClickTrack(trackData)"
+        @click="onPlayTrack(trackData, main)"
       />
       <div class="playOverlay">
         <font-awesome-icon icon="play" class="play" />
@@ -74,7 +73,7 @@
       <div class="seekLine" :style="`width: ${waveWidth}px`" />
       <div
         class="playedBackground"
-        :style="`width: ${activeTrackPastTime / (activeTrackDuration / 100)}%`"
+        :style="`width: ${playerCurrentTime / (playerDuration / 100)}%`"
       />
     </div>
   </el-col>
@@ -82,6 +81,7 @@
 
 <script>
 import numberSeparator from '@/utils/number';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -89,28 +89,29 @@ export default {
       waveWidth: 0,
     };
   },
-  props: [
-    'activeTrack',
-    'activeTrackPastTime',
-    'activeTrackDuration',
-    'trackData',
-    'onClickTrack',
-    'handleSeek',
-    'isPlay',
-    'handlePlayPause',
-    'main',
-  ],
+  props: ['trackData', 'main', 'onPlayTrack'],
+  computed: {
+    ...mapGetters({
+      isPlay: 'isPlay',
+      playerCurrentTime: 'playerCurrentTime',
+      playerDuration: 'playerDuration',
+      playerTracks: 'playerTracks',
+      playerCurrentTrack: 'playerCurrentTrack',
+      playerSeeking: 'playerSeeking',
+    }),
+  },
   methods: {
     handleHoverWave({ currentTarget, clientX }) {
-      if (this.activeTrack && (this.activeTrack.id === this.trackData.id)) {
+      if (this.playerCurrentTrack && (this.playerCurrentTrack.id === this.trackData.id)) {
         const { left } = currentTarget.getBoundingClientRect();
         this.waveWidth = clientX - left;
       }
     },
     handleClickWave({ currentTarget, clientX }) {
-      if (this.activeTrack && (this.activeTrack.id === this.trackData.id)) {
+      if (this.playerCurrentTrack && (this.playerCurrentTrack.id === this.trackData.id)) {
         const { left } = currentTarget.getBoundingClientRect();
-        this.handleSeek(((clientX - left) / (250 / 100)) * (this.activeTrackDuration / 100));
+        this.$store.dispatch('setPlayerSeeking', true);
+        this.$store.dispatch('setPlayerCurrentTime', Math.floor(((clientX - left) / (250 / 100)) * (this.playerDuration / 100)));
       }
     },
     numberSeparator,

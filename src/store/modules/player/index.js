@@ -3,12 +3,12 @@ import actions from './actions';
 import mutations from './mutations';
 
 const defaultState = {
-  getTrackLoading: false,
-  trackData: null,
-  getTrackFail: null,
-  getTrackCommentsLoading: false,
-  trackCommentsData: [],
-  getTrackCommentsFail: null,
+  isPlay: false,
+  playerCurrentTime: 0,
+  playerDuration: 0,
+  playerTracks: [],
+  playerCurrentTrack: null,
+  playerSeeking: false,
 };
 
 export default {

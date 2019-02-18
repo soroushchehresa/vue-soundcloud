@@ -4,19 +4,28 @@
       <el-header>
         <navbar />
       </el-header>
-      <el-main>
+      <el-main :style="`padding: ${!!playerCurrentTrack ? '20px 20px 90px' : '20px'}`">
         <router-view />
+        <Player />
       </el-main>
     </el-container>
   </div>
 </template>
 
 <script>
-import Navbar from './components/Navbar';
+import { mapGetters } from 'vuex';
+import Navbar from '@/components/Navbar';
+import Player from '@/components/Player';
 
 export default {
   components: {
     Navbar,
+    Player,
+  },
+  computed: {
+    ...mapGetters({
+      playerCurrentTrack: 'playerCurrentTrack',
+    }),
   },
 };
 </script>

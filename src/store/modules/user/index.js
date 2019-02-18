@@ -7,10 +7,10 @@ const defaultState = {
   userProfileData: null,
   getUserProfileFail: null,
   getUserFollowingsLoading: false,
-  userFollowingsData: null,
+  userFollowingsData: [],
   getUserFollowingsFail: null,
   getUserTracksLoading: false,
-  userTracksData: null,
+  userTracksData: [],
   getUserTracksFail: null,
 };
 

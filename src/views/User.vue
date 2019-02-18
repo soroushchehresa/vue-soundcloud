@@ -1,28 +1,22 @@
 <template>
   <div sticky-container>
-    <el-row :style="`padding-bottom: ${currentTrack ? '70px' : '0'}`">
+    <el-row>
       <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="container">
         <el-row :gutter="15">
           <el-col :span="18">
             <el-card shadow="always" class="mainUserCardWrapper">
-              <h4 v-if="getUserProfileLoading">
-                Loading...
-              </h4>
+              <h4 v-if="getUserProfileLoading">Loading...</h4>
               <div v-if="userProfileData && !getUserProfileLoading">
                 <img
                   :src="userProfileData.avatar_url"
                   :alt="userProfileData.username"
                   class="avatar"
                 />
-                <h3>
-                  {{userProfileData.username}}
-                </h3>
+                <h3>{{userProfileData.username}}</h3>
                 <div class="otherDetailsWrapper">
                   <p>
                     <font-awesome-icon icon="map-marker-alt" />
-                    {{userProfileData.country
-                    ||
-                    'Earth'}}
+                    {{userProfileData.country || 'Earth'}}
                   </p>
                   <p>
                     <font-awesome-icon icon="users" />
@@ -37,38 +31,26 @@
               </div>
             </el-card>
             <el-row :gutter="15" class="userMusicsWrapper">
-              <h4 v-if="getUserTracksLoading">
-                Loading...
-              </h4>
+              <h4 v-if="getUserTracksLoading">Loading...</h4>
               <track-item-row
                 v-if="!getUserTracksLoading && (userTracksData && userTracksData.length > 0)"
                 v-for="(track, i) in userTracksData"
                 :key="i"
                 :trackData="track"
-                :onClickTrack="handleClickTrack"
-                :activeTrack="currentTrack"
-                :activeTrackPastTime="currentTrackPastTime"
-                :activeTrackDuration="currentTrackDuration"
-                :handleSeek="handleSongItemSeekTo"
-                :handlePlayPause="handleSongItemPlayPause"
-                :isPlay="isPlay"
+                :onPlayTrack="handlePlayTrack"
               />
             </el-row>
           </el-col>
           <div
             v-sticky="true"
             sticky-side="both"
-            :class="`stickyWrapper${currentTrack ? ' playerOpened' : ''}`"
+            :class="`stickyWrapper${playerCurrentTrack ? ' playerOpened' : ''}`"
           >
             <el-col :span="6" class="followingWrapper">
-              <h4 v-if="getUserFollowingsLoading">
-                Loading...
-              </h4>
+              <h4 v-if="getUserFollowingsLoading">Loading...</h4>
               <h4 v-if="!getUserFollowingsLoading">
                 Following
-                {{userFollowingsData
-                &&
-                userFollowingsData.length}}
+                {{userFollowingsData && userFollowingsData.length}}
                 Users
               </h4>
               <follower-item
@@ -82,39 +64,19 @@
         </el-row>
       </el-col>
     </el-row>
-    <Player
-      :tracks="userTracksData"
-      :currentTrack="currentTrack"
-      :setCurrentTrack="handleSetCurrentTrack"
-      :setCurrentTrackPastTime="handleSetCurrentTrackPastTime"
-      :setCurrentTrackDuration="handleSetCurrentTrackDuration"
-      :setCurrentTrackIsPlay="handleSetCurrentTrackIsPlay"
-      :outsideSeek="trackItemSeek"
-      :outsidePlayPause="currentTrackPlayPause"
-    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
 import Sticky from 'vue-sticky-directive';
+import _ from 'lodash';
 import FollowerItem from '@/components/FollowerItem';
 import TrackItemRow from '@/components/TrackItemRow';
 import Player from '@/components/Player';
 import numberSeparator from '@/utils/number';
 
 export default {
-  data() {
-    return {
-      currentTrack: null,
-      currentTrackPastTime: 0,
-      currentTrackDuration: 0,
-      currentTrackSeek: null,
-      trackItemSeek: 0,
-      currentTrackPlayPause: false,
-      isPlay: false,
-    };
-  },
   mounted() {
     const { params: { id } } = this.$route;
     this.$store.dispatch('getUserProfile', id);
@@ -134,6 +96,11 @@ export default {
         this.$store.dispatch('getUserTracks', nextUserID);
       }
     },
+    userTracksData(nextUserTracksData, prevUserTracksData) {
+      if (nextUserTracksData.length > 0 && !_.isEqual(nextUserTracksData, prevUserTracksData)) {
+        this.$store.dispatch('setPlayerTracks', nextUserTracksData);
+      }
+    },
   },
   computed: {
     ...mapGetters({
@@ -146,36 +113,26 @@ export default {
       getUserTracksLoading: 'getUserTracksLoading',
       userTracksData: 'userTracksData',
       getUserTracksFail: 'getUserTracksFail',
+      playerCurrentTrack: 'playerCurrentTrack',
     }),
+  },
+  destroyed() {
+    this.$store.dispatch('pause');
+    this.$store.dispatch('setPlayerTracks', []);
+    this.$store.dispatch('setPlayerCurrentTrack', null);
   },
   directives: {
     Sticky,
   },
   methods: {
-    handleClickTrack(trackData) {
-      if (this.currentTrack && trackData.id === this.currentTrack.id) {
-        this.currentTrack = null;
-      } else {
-        this.currentTrack = trackData;
-      }
-    },
-    handleSetCurrentTrack(currentTrack) {
-      this.currentTrack = currentTrack;
-    },
-    handleSetCurrentTrackPastTime(pastTime) {
-      this.currentTrackPastTime = pastTime;
-    },
-    handleSetCurrentTrackDuration(duration) {
-      this.currentTrackDuration = duration;
-    },
-    handleSongItemSeekTo(time) {
-      this.trackItemSeek = Math.floor(time);
-    },
-    handleSongItemPlayPause() {
-      this.currentTrackPlayPause = !this.currentTrackPlayPause;
-    },
-    handleSetCurrentTrackIsPlay(isPlay) {
-      this.isPlay = isPlay;
+    handlePlayTrack(trackData) {
+      setTimeout(() => {
+        if (this.playerCurrentTrack && this.playerCurrentTrack.id === trackData.id) {
+          this.$store.dispatch('setPlayerCurrentTrack', null);
+        } else {
+          this.$store.dispatch('setPlayerCurrentTrack', trackData);
+        }
+      }, 100);
     },
     numberSeparator,
   },
