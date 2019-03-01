@@ -2,17 +2,9 @@
   <div>
     <el-row :style="`padding-bottom: ${currentTrack ? '70px' : '0'}`">
       <el-col :xs="24" :sm="22" :md="20" :lg="18" :xl="16" class="itemsWrapper">
-        <el-row :gutter="15" v-if="(searchResults.length < 1)">
+        <el-row :gutter="15">
           <track-item-grid
-            v-for="(track, i) in tracks"
-            :key="i"
-            :trackData="track"
-            :onClick="handleClickTrack"
-          />
-        </el-row>
-        <el-row :gutter="15" v-if="searchResults.length > 0">
-          <track-item-grid
-            v-for="(track, i) in searchResults"
+            v-for="(track, i) in (searchResults.length > 0 ? searchResults : tracks)"
             :key="i"
             :trackData="track"
             :onClick="handleClickTrack"
@@ -50,8 +42,15 @@ export default {
   },
   watch: {
     tracks(nextTracks, prevTracks) {
-      if (nextTracks && nextTracks.length > 0 && !_.isEqual(nextTracks, prevTracks)) {
+      if (nextTracks.length > 0 && !_.isEqual(nextTracks, prevTracks)) {
         this.$store.dispatch('setPlayerTracks', nextTracks);
+      }
+    },
+    searchResults(nextSearchResults, prevSearchResults) {
+      if (nextSearchResults.length > 0 && !_.isEqual(nextSearchResults, prevSearchResults)) {
+        this.$store.dispatch('setPlayerTracks', nextSearchResults);
+      } else if (prevSearchResults.length > 0 && nextSearchResults.length === 0) {
+        this.$store.dispatch('setPlayerTracks', this.tracks);
       }
     },
   },
