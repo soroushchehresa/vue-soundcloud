@@ -19,5 +19,5 @@ This is a simple Soundcloud client built with `Vue.js 2`.
 * [Element](https://github.com/ElemeFE/element)
 * [Howler](https://github.com/goldfire/howler.js)
 
-### TODOS
+### TODOS:
 -  Fix responsive issues
