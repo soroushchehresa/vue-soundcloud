@@ -9,6 +9,9 @@
         <Player />
       </el-main>
     </el-container>
+    <a class="github" target="_blank" href="https://github.com/soroushchehresa/vue-soundcloud">
+      <img :src="require('~/assets/github.png')" />
+    </a>
   </div>
 </template>
 
@@ -59,6 +62,16 @@ export default {
   }
   button, a {
     outline: none;
+  }
+  .github {
+    position: fixed;
+    right: 15px;
+    bottom: 10px;
+    display: block;
+    cursor: pointer;
+  }
+  .github img {
+    width: 40px;
   }
   .el-header {
     padding: 0;
@@ -128,6 +141,9 @@ export default {
   @media only screen and (max-width: 420px) {
     .el-tabs__item {
       font-size: 14px;
+    }
+    .github img {
+      width: 30px;
     }
   }
 </style>

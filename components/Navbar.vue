@@ -52,7 +52,10 @@
       >
         <pulse-loader class="loading" :loading="searchTracksLoading" color="#43b883" size="12px"></pulse-loader>
         <h3 v-if="!searchTracksLoading">
-          {{`Results of searched '${searchQuery}'`}}
+          {{`Results
+          of
+          searched
+          '${searchQuery}'`}}
         </h3>
         <el-button
           @click="handleClearSearch"
