@@ -108,7 +108,7 @@ export default {
       if (this.playerCurrentTrack && (this.playerCurrentTrack.id === this.trackData.id)) {
         const { left } = currentTarget.getBoundingClientRect();
         this.$store.dispatch('player/setPlayerSeeking', true);
-        this.$store.dispatch('player/setPlayerCurrentTime', Math.floor(((clientX - left) / ((this.main ? 350 : 230) / 100)) * (this.playerDuration / 100)));
+        this.$store.dispatch('player/setPlayerCurrentTime', Math.floor(((clientX - left) / ((window.innerWidth < 1300 ? 230 : this.main ? 350 : 250) / 100)) * (this.playerDuration / 100)));
       }
     },
     handlePause() {
@@ -156,7 +156,7 @@ export default {
     margin: 10px 0 20px;
   }
   .itemWrapper.mainItem .detailsWrapper {
-    max-width: calc(100% - 140px);
+    max-width: calc(100% - 80px);
     padding: 0 20px 0 10px;
     box-sizing: border-box;
   }
