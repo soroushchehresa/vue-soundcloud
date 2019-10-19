@@ -156,7 +156,7 @@ export default {
     margin: 10px 0 20px;
   }
   .itemWrapper.mainItem .detailsWrapper {
-    max-width: calc(100% - 80px);
+    max-width: calc(100% - 140px);
     padding: 0 20px 0 10px;
     box-sizing: border-box;
   }
@@ -208,7 +208,7 @@ export default {
     overflow: hidden;
     padding-left: 20px;
     float: left;
-    max-width: calc(100% - 140px);
+    max-width: calc(100% - 80px);
   }
   .userWrapper {
     float: left;
