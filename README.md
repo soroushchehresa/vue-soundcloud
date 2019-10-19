@@ -1,5 +1,11 @@
 # Vue SoundCloud
-This is a simple Soundcloud client built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org).
+This is a simple Soundcloud client built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org). 
+
+<br />
+
+## Live demo:
+**[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
+
 
 <br />
 
