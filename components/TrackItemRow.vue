@@ -157,7 +157,7 @@ export default {
   }
   .itemWrapper.mainItem .detailsWrapper {
     max-width: calc(100% - 140px);
-    padding: 0 20px;
+    padding: 0 20px 0 10px;
     box-sizing: border-box;
   }
   .itemWrapper.mainItem .otherDetails {
@@ -434,7 +434,7 @@ export default {
       padding-right: 230px;
     }
   }
-  @media only screen and (max-width: 420px) {
+  @media only screen and (max-width: 500px) {
     .itemWrapper.mainItem .artwork {
       height: 50px;
       width: 50px;
@@ -457,11 +457,25 @@ export default {
     
     .itemWrapper .detailsWrapper {
       max-width: calc(100% - 50px) !important;
-      padding: 0 10px 0 0;
+      padding: 0 0 0 10px !important;
     }
     
     .itemWrapper.mainItem {
-      height: 50px;
+      height: 90px;
+      margin: 5px 0;
+    }
+    
+    .itemWrapper.mainItem .otherDetails > span {
+      font-size: 12px;
+    }
+    
+    .itemWrapper.mainItem .otherDetails {
+      margin: 6px 0 0;
+      width: 100%;
+    }
+    
+    .itemWrapper.mainItem .otherDetails > span {
+      float: left;
     }
   }
 </style>
