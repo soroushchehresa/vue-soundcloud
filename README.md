@@ -1,13 +1,9 @@
 # Vue SoundCloud
 This is a simple Soundcloud client built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org). 
 
-<br />
-
 ## Live demo:
 **[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
 
-
-<br />
 
 ## Screenshots:
 #### Desktop view:
@@ -22,17 +18,15 @@ This is a simple Soundcloud client built with [Vue.js](https://vuejs.org) and [N
   <img src="http://i.imgur.com/6sctBZi.png" width="270px" />
 </p>
 
-<br />
 
 ## Features:
 * Server-side rendering with Nuxt.js.
-* Load data from SoundCloud API.
-* The home page included infinite scroll tracks and search tracks.
-* The tracks page included related tracks and track comments.
-* The profile page included the user's tracks and followers.
+* Load data from [SoundCloud API](https://developers.soundcloud.com/docs/api/guide).
+* The home page included loading more tracks with infinite scroll and search tracks form.
+* The track page included related tracks ,track comments and showing track wave.
+* The profile page included the user tracks and user followers.
 * And so on...
 
-<br />
 
 ## This project implemented by the following technologies:
 * [Vue](https://github.com/vuejs/vue)
@@ -43,7 +37,6 @@ This is a simple Soundcloud client built with [Vue.js](https://vuejs.org) and [N
 * [Axios](https://github.com/axios/axios)
 * And so on...
 
-<br />
 
 ## Let's run:
 
@@ -73,12 +66,10 @@ $ yarn && yarn build && yarn start
 $ npm i && npm run build && npm start
 ```
 
-<br />
 
 ## NOTE:
 It seems that SoundCloud has revoked my api client keys without any explanation or warning. Running the app locally no longer works unless you have a working SoundCloud API client id (SoundCloud has disabled registration of new apps for quite some time now). The [live demo](https://vue-soundcloud.herokuapp.com) is also not working at the moment.
 
-<br />
 
 ## Support:
 <a href="https://www.patreon.com/soroushchehresa">
