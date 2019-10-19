@@ -157,7 +157,7 @@ export default {
   }
   .itemWrapper.mainItem .detailsWrapper {
     max-width: calc(100% - 140px);
-    padding: 0 20px 0 0;
+    padding: 0 20px;
     box-sizing: border-box;
   }
   .itemWrapper.mainItem .otherDetails {
