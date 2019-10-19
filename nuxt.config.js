@@ -38,16 +38,7 @@ module.exports = {
   /*
   ** Nuxt.js modules
   */
-  modules: [
-    [
-      '@nuxtjs/dotenv',
-      {
-        path: './',
-        filename: '.env',
-        systemvars: true,
-      },
-    ],
-  ],
+  modules: [],
   /*
   ** Build configuration
   */

@@ -4,7 +4,7 @@ import qs from 'qs';
 export default ({ method, url, data, query }) => new Promise((resolve, reject) => {
   const queryStrings = qs.stringify({
     ...query,
-    client_id: process.env.SOUNDCLOUD_CLIENT_ID,
+    client_id: 'a281614d7f34dc30b665dfcaa3ed7505',
   });
   function checkStatus(response, resolve, reject) {
     const { status, data } = response;
