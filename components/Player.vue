@@ -103,7 +103,7 @@ export default {
         }
         setTimeout(() => {
           this.player = new Howl({
-            src: `${nextCurrentTrack.stream_url}?client_id=${process.env.SOUNDCLOUD_CLIENT_ID}`,
+            src: `${nextCurrentTrack.stream_url}?client_id=a281614d7f34dc30b665dfcaa3ed7505`,
             html5: true,
             volume: 1.0,
           });
