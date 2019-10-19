@@ -56,7 +56,7 @@ $ yarn && yarn dev
 $ npm i && npm run dev
 ```
 
-#### Build for production:
+#### Build and run production:
 Run one of the following commands:
 ```bash
 $ yarn && yarn build && yarn start
