@@ -25,11 +25,11 @@ This is a simple Soundcloud client built with [Vue.js](https://vuejs.org) and [N
 <br />
 
 ## Features:
-* Server side rendering with [Nuxt.js](https://github.com/nuxt/nuxt.js).
-* Connect to [SoundCloud](https://soundcloud.com/) API.
-* Home page included infinie scroll items and serch items.
-* Track page included related tracks and track's comments.
-* Profile page included user's tracks and followers.
+* Server-side rendering with Nuxt.js.
+* Load data from SoundCloud API.
+* The home page included infinite scroll tracks and search tracks.
+* The tracks page included related tracks and track comments.
+* The profile page included the user's tracks and followers.
 * And so on...
 
 <br />
