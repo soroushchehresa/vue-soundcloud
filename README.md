@@ -11,10 +11,8 @@ This is a simple Soundcloud client built with [Vue.js](https://vuejs.org) and [N
 
 ## Screenshots:
 #### Desktop view:
-<p align="left">
+<p align="center">
   <img src="http://i.imgur.com/gI1S0Ct.png" width="100%" />
-  <img src="http://i.imgur.com/z4OnNu2.png" width="400px" />
-  <img src="http://i.imgur.com/NvMUDu0.png" width="400px" />
 </p>
 
 #### Responsive view:
