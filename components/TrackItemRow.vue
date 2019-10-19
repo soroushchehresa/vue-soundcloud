@@ -208,7 +208,7 @@ export default {
     overflow: hidden;
     padding-left: 20px;
     float: left;
-    max-width: calc(100% - 80px);
+    max-width: calc(100% - 140px);
   }
   .userWrapper {
     float: left;
