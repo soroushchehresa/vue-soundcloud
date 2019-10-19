@@ -1,5 +1,5 @@
 # Vue SoundCloud
-This is a simple [Soundcloud](https://soundcloud.com) client that built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org). 
+This is a simple [SoundCloud](https://soundcloud.com) client that built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org). 
 
 ## Live demo:
 **[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
@@ -20,7 +20,7 @@ This is a simple [Soundcloud](https://soundcloud.com) client that built with [Vu
 
 
 ## Features:
-* Server-side rendering with Nuxt.js.
+* Server-side rendering with [Nuxt.js](https://nuxtjs.org).
 * Load data from [SoundCloud API](https://developers.soundcloud.com/docs/api/guide).
 * The home page included loading more tracks with infinite scroll and search tracks form.
 * The track page included related tracks ,track comments and showing track wave.
