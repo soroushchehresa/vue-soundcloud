@@ -359,6 +359,8 @@ export default {
     
     .itemWrapper.mainItem .detailsWrapper {
       max-width: calc(100% - 80px);
+      padding: 0 20px;
+      box-sizing: border-box;
     }
   }
   @media only screen and (max-width: 1300px) {
@@ -455,7 +457,7 @@ export default {
     
     .itemWrapper .detailsWrapper {
       max-width: calc(100% - 50px) !important;
-      padding-left: 10px;
+      padding: 0 10px 0 0;
     }
     
     .itemWrapper.mainItem {
