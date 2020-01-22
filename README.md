@@ -25,7 +25,6 @@ This is a simple [SoundCloud](https://soundcloud.com) client that built with [Vu
 * The home page included loading more tracks with infinite scroll and search tracks form.
 * The track page included related tracks ,track comments and showing track wave.
 * The profile page included the user tracks and user followers.
-* And so on...
 
 
 ## This project implemented by the following technologies:
@@ -35,7 +34,7 @@ This is a simple [SoundCloud](https://soundcloud.com) client that built with [Vu
 * [Element](https://github.com/ElemeFE/element)
 * [Howler](https://github.com/goldfire/howler.js)
 * [Axios](https://github.com/axios/axios)
-* And so on...
+* etc.
 
 
 ## Let's run:
