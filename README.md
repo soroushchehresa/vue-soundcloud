@@ -7,7 +7,6 @@ This is a simple [SoundCloud](https://soundcloud.com) client that built with [Vu
 </div>
 
 <br />
-<br />
 
 ## Live demo:
 **[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
