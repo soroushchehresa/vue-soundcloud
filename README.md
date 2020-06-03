@@ -1,11 +1,9 @@
-<br />
-
-## It was an experimental side project to me and I've not maintained that since 2019.
-
-<br />
-
-# Vue SoundCloud
+<div align="center">
+  
+# 🎧 Vue SoundCloud
 This is a simple [SoundCloud](https://soundcloud.com) client that built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org). 
+
+</div>
 
 ## Live demo:
 **[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
