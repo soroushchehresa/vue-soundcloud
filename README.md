@@ -2,7 +2,7 @@
 <div align="center">
   
 # 🎧 Vue SoundCloud
-This is a simple [SoundCloud](https://soundcloud.com) client that built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org). 
+Simple [SoundCloud](https://soundcloud.com) client built with [Vue.js](https://vuejs.org) and [Nuxt.js](https://nuxtjs.org). 
 
 </div>
 
