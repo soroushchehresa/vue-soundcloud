@@ -18,7 +18,7 @@ Simple [SoundCloud](https://soundcloud.com) client built with [Vue.js](https://v
   <img src="http://i.imgur.com/gI1S0Ct.png" width="100%" />
 </p>
 
-#### Responsive view:
+#### Mobile view:
 <p align="left">
   <img src="http://i.imgur.com/pYKI0MI.png" width="270px" />
   <img src="http://i.imgur.com/dKQr8ul.png" width="270px" />
