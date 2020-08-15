@@ -9,7 +9,7 @@ Simple [SoundCloud](https://soundcloud.com) client built with [Vue.js](https://v
 <br />
 
 ## Live demo:
-**[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
+**[https://vue-soundcloud.vercel.app](https://vue-soundcloud.vercel.app)**
 
 
 ## Screenshots:
