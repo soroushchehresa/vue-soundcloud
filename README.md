@@ -8,11 +8,13 @@ Simple [SoundCloud](https://soundcloud.com) client built with [Vue](https://vuej
 
 <br />
 
-## Live demo:
-**[https://vue-soundcloud.vercel.app](https://vue-soundcloud.vercel.app)**
+## NOTE:
+It seems that SoundCloud has revoked my api client keys without any explanation or warning. Running the app locally no longer works unless you have a working SoundCloud API client id (SoundCloud has disabled registration of new apps for quite some time now). The [live demo](https://vue-soundcloud.herokuapp.com) is also not working at the moment.
 
+## Live demo:
 **[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
 
+**[https://vue-soundcloud.vercel.app](https://vue-soundcloud.vercel.app)**
 
 ## Screenshots:
 #### Desktop view:
@@ -73,11 +75,6 @@ $ yarn && yarn build && yarn start
 
 $ npm i && npm run build && npm start
 ```
-
-
-## NOTE:
-It seems that SoundCloud has revoked my api client keys without any explanation or warning. Running the app locally no longer works unless you have a working SoundCloud API client id (SoundCloud has disabled registration of new apps for quite some time now). The [live demo](https://vue-soundcloud.vercel.app) is also not working at the moment.
-
 
 ## Support:
 <a href="https://www.patreon.com/soroushchehresa">
