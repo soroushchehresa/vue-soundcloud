@@ -14,8 +14,6 @@ It seems that SoundCloud has revoked my api client keys without any explanation 
 ## Live demo:
 **[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
 
-**[https://vue-soundcloud.vercel.app](https://vue-soundcloud.vercel.app)**
-
 ## Screenshots:
 #### Desktop view:
 <p align="center">
