@@ -1,12 +1,5 @@
 module.exports = {
   mode: 'universal',
-  target: 'static',
-  generate: {
-    fallback: true
-  },
-  /*
-  ** Headers of the page
-  */
   head: {
     title: process.env.npm_package_name || 'VUE SOUNDCLOUD',
     meta: [
@@ -18,39 +11,18 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ],
   },
-  /*
-  ** Customize the progress-bar color
-  */
   loading: { color: '#fff' },
-  /*
-  ** Global CSS
-  */
   css: [
     'element-ui/lib/theme-chalk/index.css',
   ],
-  /*
-  ** Plugins to load before mounting the App
-  */
   plugins: [
     '@/plugins/element-ui',
     '@/plugins/font-awesome',
   ],
-  /*
-  ** Nuxt.js dev-modules
-  */
   buildModules: [],
-  /*
-  ** Nuxt.js modules
-  */
   modules: [],
-  /*
-  ** Build configuration
-  */
   build: {
     transpile: [/^element-ui/],
-    /*
-    ** You can extend webpack config here
-    */
     extend(config, ctx) {
     },
   },
