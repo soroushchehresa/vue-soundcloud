@@ -1,6 +1,9 @@
 module.exports = {
   mode: 'universal',
   target: 'static',
+  generate: {
+    fallback: true
+  },
   /*
   ** Headers of the page
   */
