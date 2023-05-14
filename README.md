@@ -8,11 +8,12 @@ Simple [SoundCloud](https://soundcloud.com) client built with [Vue](https://vuej
 
 <br />
 
-## NOTE:
-It seems that SoundCloud has revoked my api client keys without any explanation or warning. Running the app locally no longer works unless you have a working SoundCloud API client id (SoundCloud has disabled registration of new apps for quite some time now). The [live demo](https://vue-soundcloud.herokuapp.com) is also not working at the moment.
+## ⚠️ At present, it is not functional ⚠️
+Unfortunately, third-party applications that relied on SoundCloud's API to play music from its platform are no longer functional due to SoundCloud's decision to discontinue the API. Moreover, the platform had long time ceased providing API keys to users without any clear explanation prior to this. As a result, developers are left without a solution to work with the APIs, which has caused frustration and inconvenience for those who use these applications to access SoundCloud's vast music collection. It remains to be seen if SoundCloud will provide an alternative solution to this problem for developers and users alike.
 
-## Live demo:
-**[https://vue-soundcloud.herokuapp.com](https://vue-soundcloud.herokuapp.com)**
+I am hopeful that we can revive this project once again, so I don't archive this repository!
+
+<br>
 
 ## Screenshots:
 #### Desktop view:
